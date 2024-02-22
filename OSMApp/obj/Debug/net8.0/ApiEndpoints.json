@@ -1,0 +1,28 @@
+[
+  {
+    "ContainingType": "OSMApp.Controllers.PointController",
+    "Method": "AddPoint",
+    "RelativePath": "api/Point",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "point",
+        "Type": "EntityLayer.Concrete.Point",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OSMApp.Models.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
