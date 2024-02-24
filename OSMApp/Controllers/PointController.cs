@@ -19,17 +19,22 @@ namespace OSMApp.Controllers
         {
             try
             {
-                var createPoint = new Point
+
+                bool nameExists = !string.IsNullOrEmpty(point.PointName) && _pointManager.TGetByName(point.PointName) != null;
+                bool numberExists = point.PointNumber != null && _pointManager.TGetByNumber(point.PointNumber) != null;
+                bool coordinatesExist = point.Latitude != null && point.Longitude != null && _pointManager.TGetByCoordinate(point.Latitude, point.Longitude) != null;
+
+
+                if (nameExists || numberExists || coordinatesExist)
                 {
-                    PointName = point.PointName,
-                    PointNumber = point.PointNumber,
-                    Latitude = point.Latitude,
-                    Longitude = point.Longitude
-                };
-
-                _pointManager.TAdd(createPoint);
-
-                return new Response { Data = createPoint, Message = "Point added successfully.", Success = true };
+                    return new Response { Data = null, Message = "The provided point coordinates, name, or number already exist.", Success = false };
+                }
+                else
+                {
+                  
+                    _pointManager.TAdd(point);
+                    return new Response { Data = point, Message = "Point added successfully.", Success = true };
+                }
             }
             catch (Exception e)
             {
