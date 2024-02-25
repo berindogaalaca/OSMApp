@@ -135,7 +135,7 @@ const ScrollableList = () => {
           {items.map((item, index) => (
             <tr
               key={index}
-              onClick={() => handleItemClick(item)} // handleItemClick fonksiyonunu çağırın
+              onClick={() => handleItemClick(item)} 
               style={{
                 cursor: "pointer",
                 backgroundColor:
