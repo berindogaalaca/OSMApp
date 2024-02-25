@@ -20,12 +20,19 @@ const AddPointPanel = ({ coord }) => {
     const Latitude = xCoord;
     const Longitude = yCoord;
 
+    const addX = (e) => {
+        setXCoord(e.target.value)
+    }
+    const addY = (e) => {
+        setYCoord(e.target.value)
+    }
     useEffect(() => {
         if (coord) {
             setXCoord(coord[0]);
             setYCoord(coord[1]);
         }
     }, [coord]);
+
     const addPoint = async (e) => {
         e.preventDefault();
         try {
@@ -79,7 +86,7 @@ const AddPointPanel = ({ coord }) => {
                             inputType="text"
                             placeholder="Enter your location number"
                             onInputChange={addNumber}
-                                />
+                        />
                     </div>
                     <div className="row mb-4">
                         <div className="col-6">
@@ -88,8 +95,9 @@ const AddPointPanel = ({ coord }) => {
                                 inputType="text"
                                 placeholder="Enter your location x coordinate"
                                 inputName="Xcoordinate"
-                                value={xCoord} onChange={(e) => setXCoord(e.target.value)}
-                                                          />
+                                value={xCoord}
+                                onInputChange={addX}
+                            />
                         </div>
                         <div className="col-6">
                             <Input
@@ -97,8 +105,9 @@ const AddPointPanel = ({ coord }) => {
                                 inputType="text"
                                 placeholder="Enter your location y coordinate"
                                 inputName="Ycoordinate"
-                                value={yCoord} onChange={(e) => setYCoord(e.target.value)}
-                                
+                                value={yCoord}
+                                onInputChange={addY}
+
                             />
                         </div>
                     </div>
