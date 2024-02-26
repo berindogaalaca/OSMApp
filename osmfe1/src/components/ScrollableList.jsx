@@ -72,7 +72,7 @@ const ScrollableList = ({ items, selectedItem, handleItemClick }) => {
                     </tbody>
                 </table>
             ) : (
-                // items tanýmlý deðilse veya boþsa bu durumu iþle
+          
                 <div>No items to display</div>
             )}
         </div>

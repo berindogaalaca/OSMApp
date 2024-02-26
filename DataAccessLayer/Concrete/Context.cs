@@ -15,7 +15,6 @@ namespace DataAccessLayer.Concrete
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host= localhost; Database=OSMApp ; Username=postgres; Password=berin123");
-            //optionsBuilder.UseNpgsql(_Configuration.GetConnectionString("WebApiDatabase"));
         }
         public DbSet<Point> Points { get; set; }
     }
