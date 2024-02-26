@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import ScrollableList from "../components/ScrollableList";
@@ -11,6 +11,11 @@ const QueryPoint = ({ coord }) => {
     const [PointNumber, setNumber] = useState("");
     const [filteredItems, setFilteredItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
+
+    const nameRef = useRef(null);
+    const numberRef = useRef(null);
+    const latitude1Ref = useRef(null);
+    const longitude1Ref = useRef(null);
 
     const addName = (e) => {
         setName(e.target.value);
@@ -67,17 +72,24 @@ const QueryPoint = ({ coord }) => {
             console.error("Error query Point:", error.message);
         }
     };
-    
+
+    const handleDeleteButtonClick = () => {
+        setName("");
+        setNumber("");
+        setXCoord("");
+        setYCoord("");
+    };
+
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: "865px" }}>
-            <div class="card" style={{ width: "800px", height: "550px" }}>
+            <div className="card" style={{ width: "800px", height: "550px" }}>
                 <div className="card-header pt-4">
                     <div>
                         <BackArrow />
                     </div>
                     <h5 className="card-title pt-2">Query Point</h5>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                     <div className="row d-flex">
                         <div className="col-3 mb-4">
                             <Input
@@ -86,6 +98,8 @@ const QueryPoint = ({ coord }) => {
                                 placeholder="Enter your location name"
                                 inputName="Name"
                                 onInputChange={addName}
+                                value={PointName}
+                                ref={nameRef}
                             />
                         </div>
                         <div className="col-3 mb-4">
@@ -95,6 +109,8 @@ const QueryPoint = ({ coord }) => {
                                 placeholder="Enter your location number"
                                 inputName="Number"
                                 onInputChange={addNumber}
+                                value={PointNumber}
+                                ref={numberRef}
                             />
                         </div>
                         <div className="col-3">
@@ -104,6 +120,8 @@ const QueryPoint = ({ coord }) => {
                                 placeholder="Enter your location x coordinate"
                                 inputName="Xcoordinate"
                                 onInputChange={addX}
+                                value={xCoord}
+                                ref={latitude1Ref}
                             />
                         </div>
                         <div className="col-3">
@@ -113,6 +131,8 @@ const QueryPoint = ({ coord }) => {
                                 placeholder="Enter your location y coordinate"
                                 inputName="Ycoordinate"
                                 onInputChange={addY}
+                                value={yCoord}
+                                ref={longitude1Ref}
                             />
                         </div>
                     </div>
@@ -127,6 +147,7 @@ const QueryPoint = ({ coord }) => {
                             <Button
                                 buttontext="Delete"
                                 buttonStyle={{ width: "130px", height: "40px" }}
+                                buttonclick={handleDeleteButtonClick}
                             />
                         </div>
                     </div>
@@ -144,8 +165,6 @@ const QueryPoint = ({ coord }) => {
                                 handleItemClick={handleItemClick}
                             />
                         )}
-                        
-
                     </div>
                 </div>
             </div>

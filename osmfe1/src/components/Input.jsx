@@ -8,7 +8,7 @@ const Input = ({
     inputName,
     onInputChange,
     value,
-    inputid
+    inputid, ref
 }) => {
     const handleInputChange = (e) => {
         const inputValue = e.target.value;
@@ -19,6 +19,7 @@ const Input = ({
           <label htmlFor={labelFor}>{labelText}</label>
           <div className="input-group">
                 <input
+                    ref={ref }
                     id={inputid }
               type={inputType}
               placeholder={placeholder}
