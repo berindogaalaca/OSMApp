@@ -10,6 +10,7 @@ const QueryPoint = ({ coord }) => {
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
     const [filteredItems, setFilteredItems] = useState([]);
+    const [selectedItem, setSelectedItem] = useState(null);
 
     const addName = (e) => {
         setName(e.target.value);
@@ -37,6 +38,10 @@ const QueryPoint = ({ coord }) => {
         console.log("Filtered items:", filteredItems[0]);
     }, [filteredItems]);
 
+    const handleItemClick = (item) => {
+        setSelectedItem(item);
+    };
+
     const queryPoint = async (e) => {
         e.preventDefault();
         try {
@@ -62,6 +67,7 @@ const QueryPoint = ({ coord }) => {
             console.error("Error query Point:", error.message);
         }
     };
+    
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ height: "865px" }}>
             <div class="card" style={{ width: "800px", height: "550px" }}>
@@ -125,7 +131,21 @@ const QueryPoint = ({ coord }) => {
                         </div>
                     </div>
                     <div className="row">
-                        <ScrollableList items={filteredItems[0]} />
+                        {PointName || PointNumber || xCoord || yCoord ? (
+                            <ScrollableList
+                                items={filteredItems}
+                                selectedItem={selectedItem}
+                                handleItemClick={handleItemClick}
+                            />
+                        ) : (
+                            <ScrollableList
+                                items={filteredItems[0]}
+                                selectedItem={selectedItem}
+                                handleItemClick={handleItemClick}
+                            />
+                        )}
+                        
+
                     </div>
                 </div>
             </div>
