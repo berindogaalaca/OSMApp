@@ -12,7 +12,7 @@ namespace OSMApp.Controllers
     [ApiController]
     public class PointController : Controller
     {
-        
+        Response response = new Response();
         PointManager _pointManager = new PointManager(new EfPointDal());
         [HttpPost]
         public Response AddPoint([FromBody] Point point)
@@ -27,19 +27,26 @@ namespace OSMApp.Controllers
 
                 if (nameExists || numberExists || coordinatesExist)
                 {
-                    return new Response { Data = null, Message = "The provided point coordinates, name, or number already exist.", Success = false };
+                    response.Data = null;
+                    response.Success = false;
+                    response.Message = "The provided point coordinates, name, or number already exist.";
                 }
                 else
                 {
                   
                     _pointManager.TAdd(point);
-                    return new Response { Data = point, Message = "Point added successfully.", Success = true };
+                    response.Success = true;
+                    response.Message = "Point added successfully.";
+                    response.Data = point;
                 }
             }
             catch (Exception e)
             {
-                return new Response { Data = null, Message = e.Message, Success = false };
+                response.Success = false;
+                response.Message = e.Message;
+                response.Data = null;
             }
+            return response;
         }
 
         [HttpGet]
@@ -50,19 +57,28 @@ namespace OSMApp.Controllers
                 if (string.IsNullOrEmpty(PointName) && !PointNumber.HasValue && !Latitude.HasValue && !Longitude.HasValue)
                 {
                     var points = _pointManager.GetList();
-                    return new Response { Data = points, Message = "Get Points list successfully", Success = true };
+                    response.Data = points;
+                    response.Success = true;
+                    response.Message = "Get Points list successfully";
+
                 }
 
-                else if (!string.IsNullOrEmpty(PointName)&& !PointNumber.HasValue && !Latitude.HasValue && !Longitude.HasValue)
+                else if (!string.IsNullOrEmpty(PointName) && !PointNumber.HasValue && !Latitude.HasValue && !Longitude.HasValue)
                 {
                     var pointGetByName = _pointManager.TGetByName(PointName);
                     if (pointGetByName != null)
                     {
-                        return new Response { Data = pointGetByName, Message = "Name found", Success = true };
+                        response.Data = pointGetByName;
+                        response.Success = true;
+                        response.Message = "Name found";
+
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Name didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Name didn't found";
+
                     }
                 }
                 else if (string.IsNullOrEmpty(PointName) && PointNumber.HasValue && !Latitude.HasValue && !Longitude.HasValue)
@@ -70,23 +86,33 @@ namespace OSMApp.Controllers
                     var pointGetByNumber = _pointManager.TGetByNumber(PointNumber);
                     if (pointGetByNumber != null)
                     {
-                        return new Response { Data = pointGetByNumber, Message = "Number found", Success = true };
+                        response.Data = pointGetByNumber;
+                        response.Success = true;
+                        response.Message = "Number found";
+
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Number didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Number didn't found";
+
                     }
                 }
-                else if (string.IsNullOrEmpty(PointName) && !PointNumber.HasValue &&Latitude.HasValue && Longitude.HasValue)
+                else if (string.IsNullOrEmpty(PointName) && !PointNumber.HasValue && Latitude.HasValue && Longitude.HasValue)
                 {
                     var pointGetByCoordinate = _pointManager.TGetByCoordinate(Latitude, Longitude);
                     if (pointGetByCoordinate != null)
                     {
-                        return new Response { Data = pointGetByCoordinate, Message = "Latitude and Longitude found", Success = true };
+                        response.Data = pointGetByCoordinate;
+                        response.Success = true;
+                        response.Message = "Latitude and Longitude found";
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Latitude and Longitude didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Latitude and Longitude didn't found";
                     }
                 }
                 else if (string.IsNullOrEmpty(PointName) && PointNumber.HasValue && Latitude.HasValue && Longitude.HasValue)
@@ -94,11 +120,15 @@ namespace OSMApp.Controllers
                     var pointGetByCoordinateNumber = _pointManager.TGetByCoordinateNumber(PointNumber, Latitude, Longitude);
                     if (pointGetByCoordinateNumber != null)
                     {
-                        return new Response { Data = pointGetByCoordinateNumber, Message = "Coordinate and Number found", Success = true };
+                        response.Data = pointGetByCoordinateNumber;
+                        response.Success = true;
+                        response.Message = "Coordinate and Number found";
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Coordinate and Number didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Coordinate and Number didn't found";
                     }
                 }
                 else if (!string.IsNullOrEmpty(PointName) && !PointNumber.HasValue && Latitude.HasValue && Longitude.HasValue)
@@ -106,11 +136,15 @@ namespace OSMApp.Controllers
                     var pointGetByCoordinateName = _pointManager.TGetByCoordinateName(PointName, Latitude, Longitude);
                     if (pointGetByCoordinateName != null)
                     {
-                        return new Response { Data = pointGetByCoordinateName, Message = "Coordinate and Name found", Success = true };
+                        response.Data = pointGetByCoordinateName;
+                        response.Success = true;
+                        response.Message = "Coordinate and Name found";
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Coordinate and Name didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Coordinate and Name didn't found";
                     }
                 }
                 else if (!string.IsNullOrEmpty(PointName) && PointNumber.HasValue && !Latitude.HasValue && !Longitude.HasValue)
@@ -118,31 +152,41 @@ namespace OSMApp.Controllers
                     var pointGetByNumberName = _pointManager.TGetByNumberName(PointName, PointNumber);
                     if (pointGetByNumberName != null)
                     {
-                        return new Response { Data = pointGetByNumberName, Message = "Name and Number found", Success = true };
+                        response.Data = pointGetByNumberName;
+                        response.Success = true;
+                        response.Message = "Name and Number found";
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Name and Number didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Name and Number didn't found"; 
                     }
-
                 }
                 else
                 {
                     var pointGetByCoordinateNumberName = _pointManager.TGetByCoordinateNumberName(PointNumber, Latitude, Longitude, PointName);
                     if (pointGetByCoordinateNumberName != null)
                     {
-                        return new Response { Data = pointGetByCoordinateNumberName, Message = "Name, Number and Coordinate found", Success = true };
+                        response.Data = pointGetByCoordinateNumberName;
+                        response.Success = true;
+                        response.Message = "Name, Number and Coordinate found";
                     }
                     else
                     {
-                        return new Response { Data = null, Message = "Name, Number and Coordinate didn't find", Success = false };
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = "Name, Number and Coordinate didn't found";
                     }
                 }
             }
             catch (Exception e)
             {
-                return new Response { Data = null, Message = e.Message, Success = false };
+                response.Data = null;
+                response.Success = false;
+                response.Message = e.Message;
             }
+            return response;
         }
     }
 }
