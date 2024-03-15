@@ -51,7 +51,10 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
             });
 
             if (response.ok) {
-                toast.success('Add Point is Successfully', {
+                const data = await response.json();
+                console.log(data.message);
+                const message = data.message;
+                toast.success(message, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,

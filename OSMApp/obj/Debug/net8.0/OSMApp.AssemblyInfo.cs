@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OSMApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56e5e8ee9a9ed348b085bb6c96acb1429f8b0f05")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45c2617dbf8d30e340db1967e533d0c36ec97ea4")]
 [assembly: System.Reflection.AssemblyProductAttribute("OSMApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OSMApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
