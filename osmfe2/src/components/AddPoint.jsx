@@ -36,7 +36,8 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
   const handleClose = () => {
     setShowModal(false);
     onHide && onHide();
-    deactivateInteraction();
+      deactivateInteraction();
+      window.location.reload();
   };
 
     const addPoint = async (e) => {
