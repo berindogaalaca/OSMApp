@@ -3,6 +3,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import ScrollLabelList from "./ScrollLableList";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 function MyVerticallyCenteredModal(props) {
     const [xCoord, setXCoord] = useState("");
@@ -62,10 +65,26 @@ function MyVerticallyCenteredModal(props) {
 
                 setFilteredItems([...valuesArray]);
             } else {
-                console.error("Error query Point:", response.statusText);
+                toast.error(response.statusText, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
         } catch (error) {
-            console.error("Error query Point:", error.message);
+            toast.error(error.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     };
 
@@ -164,7 +183,9 @@ function MyVerticallyCenteredModal(props) {
               </div>
       
       </Modal.Body>
-      <Modal.Footer>
+          <Modal.Footer>
+              <ToastContainer />
+
         <Button className="mx-3 bg-black border-0" onClick={props.onHide}>
           Close
         </Button>

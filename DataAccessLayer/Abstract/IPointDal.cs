@@ -16,5 +16,6 @@ namespace DataAccessLayer.Abstract
         Point GetByCoordinateName(string PointName, double? Latitude, double? Longitude);
         Point GetByCoordinateNumber(int? PointNumber, double? Latitude, double? Longitude);
         Point GetByCoordinateNumberName(int? PointNumber, double? Latitude, double? Longitude,string Name);
+        Point GetById(int? PointId);
     }
 }

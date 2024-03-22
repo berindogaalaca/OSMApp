@@ -42,9 +42,9 @@ namespace BusinessLayer.Concrete
             _PointDal.Delete(t);
         }
 
-        public Point TGetByID(int id)
+        public Point TGetByID(int? id)
         {
-            throw new NotImplementedException();
+            return _PointDal.GetById(id);
         }
 
         public Point TGetByCoordinate(double? Latitude , double? Longitude)

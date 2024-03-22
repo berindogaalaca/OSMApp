@@ -16,6 +16,7 @@ namespace BusinessLayer.Abstract
         Point TGetByCoordinateName(string PointName, double? Latitude, double? Longitude);
         Point TGetByCoordinateNumber(int? PointNumber, double? Latitude, double? Longitude);
         Point TGetByCoordinateNumberName(int? PointNumber, double? Latitude, double? Longitude, string Name);
+        Point TGetByID(int? PointId);
 
     }
 }

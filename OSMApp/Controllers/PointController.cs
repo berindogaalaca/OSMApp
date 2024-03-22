@@ -5,6 +5,8 @@ using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using OSMApp.Models;
 using System;
+using System.Drawing;
+using Point = EntityLayer.Concrete.Point;
 
 namespace OSMApp.Controllers
 {
@@ -187,6 +189,77 @@ namespace OSMApp.Controllers
                 responseMessage.Message = e.Message;
             }
             return responseMessage;
+        }
+
+        [HttpDelete("{PointId:int}")]
+        public Response DeleteValue(int? PointId)
+        { 
+            try
+            {
+                var pointValue = _pointManager.TGetByID(PointId);
+                if (pointValue == null)
+                {
+                    responseMessage.Success = false;
+                    responseMessage.Message = "Point value undefined";
+                    responseMessage.Data = null;
+                }
+                else
+                {
+                    _pointManager.TDelete(pointValue);
+                    responseMessage.Success = true;
+                    responseMessage.Message = "Point deleted successfully.";
+                    responseMessage.Data = pointValue;
+                }
+            }
+            catch (Exception e)
+            {
+                responseMessage.Success = false;
+                responseMessage.Message = e.Message;
+                responseMessage.Data = null;
+            }
+            return responseMessage;
+        }
+
+        [HttpPut("{PointId}")]
+        public Response UpdatePoint(int? PointId,[FromBody] Point point ) {
+            try
+            {
+                if (point == null)
+                {
+                    responseMessage.Success = false;
+                    responseMessage.Message = "Invalid point";
+                    responseMessage.Data = null;
+                }
+
+                var existingPoint = _pointManager.TGetByID(PointId);
+
+                if (existingPoint == null)
+                {
+                    responseMessage.Success = false;
+                    responseMessage.Message = "Undefined point";
+                    responseMessage.Data = null;
+                }
+                var updatePoint = new Point
+                {
+                    PointId = existingPoint.PointId,
+                    PointName = point.PointName,
+                    PointNumber = point.PointNumber,
+                    Latitude = point.Latitude,
+                    Longitude = point.Longitude,
+                };
+                _pointManager.TUpdate(updatePoint);
+                responseMessage.Success = false;
+                responseMessage.Message = "Updated point";
+                responseMessage.Data = updatePoint;
+            }
+            catch (Exception e)
+            {
+                responseMessage.Success = false;
+                responseMessage.Message = e.Message;
+                responseMessage.Data = null;
+            }
+            return responseMessage;
+
         }
     }
 }

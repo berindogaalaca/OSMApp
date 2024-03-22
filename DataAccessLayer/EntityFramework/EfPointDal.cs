@@ -39,6 +39,11 @@ namespace DataAccessLayer.EntityFramework
             return _context.Points.FirstOrDefault(p => p.PointName == PointName && p.PointNumber == PointNumber && p.Latitude == Latitude && p.Longitude == Longitude);
         }
 
+        public Point GetById(int? PointId)
+        {
+            return _context.Points.FirstOrDefault(p => p.PointId == PointId);
+        }
+
         public Point GetByName(string PointName)
         {
             return _context.Points.FirstOrDefault(p => p.PointName == PointName);
