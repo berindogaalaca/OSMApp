@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.28.6",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "ol": "^9.0.0",
