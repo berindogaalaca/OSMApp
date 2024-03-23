@@ -6,31 +6,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteData } from '../service/DeleteFetch';
 import Modify from './Modify';
-import QueryPoint from './QueryPoint';
+import QueryPoint from './QueryPoint'; 
 
 const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
-    const [modalShowModify, setModalShowModify] = useState(false);
     const [modalShowQuery, setModalShowQuery] = useState(false);
+    const [modalShowModify, setModalShowModify] = useState(false);
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: deleteData,
+        mutationKey: 'delete',
+        onSuccess: () => {
+            queryClient.invalidateQueries('data');
+        },
+    });
+
+    const deleteHandler = (pointId) => {
+        mutation.mutate(pointId);
+    };
 
     const openModifyModal = () => {
         setModalShowModify(true);
-        setModalShowQuery(false);
+        setModalShowQuery(false); 
     };
 
     const closeModifyModal = () => {
         setModalShowModify(false);
-    };
-
-    const handleModifyButtonClick = () => {
-        // QueryPoint modalýný kapat
-        setModalShowQuery(false);
-
-        // Modify modalýný aç
-        openModifyModal();
-    };
-
-    const handleQueryPointClose = () => {
-        setModalShowQuery(false);
     };
 
     return (
@@ -53,12 +54,8 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
                                 onClick={() => handleItemClick(item)}
                                 style={{
                                     cursor: 'pointer',
-                                    backgroundColor:
-                                        selectedItem && selectedItem === item
-                                            ? 'black'
-                                            : 'transparent',
-                                }}
-                            >
+                                    backgroundColor: selectedItem && selectedItem === item ? 'black' : 'transparent',
+                                }}>
                                 <td>{item.pointName}</td>
                                 <td>{item.pointNumber}</td>
                                 <td>{item.latitude}</td>
@@ -68,17 +65,21 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
                                         <Button
                                             className="bg-black border-0 mx-3"
                                             onClick={() => deleteHandler(item.pointId)}
-                                            style={{ width: '100%', height: '5vh' }}
-                                        >
+                                            style={{ width: '100%', height: '5vh' }}>
                                             Delete
                                         </Button>
                                         <Button
                                             className="bg-black border-0 mx-3"
-                                            onClick={() => handleModifyButtonClick()} // handleModifyButtonClick fonksiyonu çaðrýldý
-                                            style={{ width: '100%', height: '5vh' }}
-                                        >
+                                            onClick={() => openModifyModal()}
+                                            style={{ width: '100%', height: '5vh' }}>
                                             Modify
                                         </Button>
+                                        {modalShowModify && (
+                                            <Modify
+                                                show={modalShowModify}
+                                                onHide={() => setModalShowModify(false)}
+                                            />
+                                        )} {modalShowQuery && <QueryPoint onHide={() => setModalShowQuery(false)} />} 
                                     </div>
                                 </td>
                             </tr>
@@ -88,10 +89,7 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
             ) : (
                 <div>No items to Display</div>
             )}
-
-            {modalShowModify && <Modify show={modalShowModify} onHide={closeModifyModal} />} {/* Modify modalý */}
-            {modalShowQuery && <QueryPoint show={modalShowQuery} onHide={handleQueryPointClose} />} {/* QueryPoint modalý */}
-
+           
             <ToastContainer />
         </div>
     );

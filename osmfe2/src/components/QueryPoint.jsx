@@ -131,7 +131,7 @@ function MyVerticallyCenteredModal(props) {
                     </div>
                 </Form>
                 <div className="row">
-                  
+
                     {PointName || PointNumber || xCoord || yCoord ? (
 
                         <ScrollLabelList
@@ -146,7 +146,7 @@ function MyVerticallyCenteredModal(props) {
                             handleItemClick={handleItemClick}
                         />
                     )}
-                   
+
                 </div>
             </Modal.Body>
             <Modal.Footer>
@@ -160,7 +160,13 @@ function MyVerticallyCenteredModal(props) {
 }
 
 const QueryPoint = ({ show, onHide }) => {
-    return <MyVerticallyCenteredModal show={show} onHide={onHide} />;
+    const handleClose = () => {
+        onHide();
+        window.location.reload(); // Sayfayý yenile
+    };
+
+    return <MyVerticallyCenteredModal show={show} onHide={handleClose} />;
 };
 
 export default QueryPoint;
+
