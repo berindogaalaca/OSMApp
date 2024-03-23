@@ -32,19 +32,17 @@ function Navbar() {
                                 />
                             </li><QueryClientProvider client={queryClient}>
                             <li className="nav-item">
-                                <Button
-                                    buttontext="Query Point"
-                                    buttonclick={() => setModalShowQuery(true)}
-                                />
-                                
-                                   
+                                    <Button
+                                        buttontext="Query Point"
+                                        buttonclick={() => setModalShowQuery(true)}
+                                    />
+                                    {modalShowQuery && (
                                         <QueryPoint
                                             show={modalShowQuery}
                                             onHide={() => setModalShowQuery(false)}
                                         />
-                                    
-                             
-                            </li>   </QueryClientProvider>
+                                    )}
+                                </li>   </QueryClientProvider>
                         </ul>
                     </div>
                 </div>
