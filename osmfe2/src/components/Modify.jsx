@@ -8,9 +8,15 @@ import { ModalContext } from '../context/modalProvider';
 import { toast } from 'react-toastify';
 
 
-const AddPoint = ({coordinate, deactivateInteraction }) => {
+const Modify = ({coordinate, deactivateInteraction }) => {
 
-    const { toggleModify, isModifyOpen } = useContext(ModalContext);
+    const { toggleModify, isModifyOpen, selectedPoint } = useContext(ModalContext);
+
+    useEffect(() => {
+        console.log('Selected Point Name:', selectedPoint);
+       console.log('Selected Point Name:', selectedPoint?.pointName);
+    }, [selectedPoint]);
+
 
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
@@ -57,12 +63,14 @@ const AddPoint = ({coordinate, deactivateInteraction }) => {
                             type="text"
                             placeholder="Add Your Coordinate Name"
                             autoFocus
+                            value={selectedPoint?.pointName}
                             onChange={addName}
                         />
                         <Form.Label>Number</Form.Label>
                         <Form.Control
                             className='mb-2'
                             type="number"
+                            value={selectedPoint?.pointNumber}
                             placeholder="Add Your Coordinate Number"
                             onChange={addNumber}
                         />
@@ -72,7 +80,7 @@ const AddPoint = ({coordinate, deactivateInteraction }) => {
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Latitude"
-                            value={latitude}
+                            value={selectedPoint?.latitude}
                             onChange={(e) => setLatitude(e.target.value)}
                             readOnly
                         />
@@ -81,7 +89,7 @@ const AddPoint = ({coordinate, deactivateInteraction }) => {
                             disabled
                             type="number"
                             placeholder="Add Your Longitude"
-                            value={longitude}
+                            value={selectedPoint?.longitude}
                             onChange={(e) => setLongitude(e.target.value)}
                             readOnly
                         />
@@ -92,10 +100,10 @@ const AddPoint = ({coordinate, deactivateInteraction }) => {
                 <Button className='bg-black border-0' >Save</Button>
                 <Button className='bg-black border-0' >Change Coordinates</Button>
                 <ToastContainer />
-                <Button className='bg-black border-0'>Close</Button>
+                
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default AddPoint;
+export default Modify;

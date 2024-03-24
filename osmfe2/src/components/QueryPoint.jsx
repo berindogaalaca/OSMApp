@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -15,12 +15,11 @@ function MyVerticallyCenteredModal(props) {
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
 
-    const { isQueryOpen, toggleQuery
+    const { toggleQuery
 
          } = useContext(ModalContext);
 
     const [selectedItem, setSelectedItem] = useState(null);
-    const [filteredItems, setFilteredItems] = useState([]);
 
     const nameRef = useRef(null);
     const numberRef = useRef(null);
@@ -51,12 +50,6 @@ function MyVerticallyCenteredModal(props) {
         queryFn: () => fetchData(PointName, PointNumber, xCoord, yCoord),
     });
 
-    //useEffect(() => {
-    //    if (data) {
-    //        const valuesArray = Object.keys(data).map(key => data[key]);
-    //        setFilteredItems([...valuesArray]);
-    //    }
-    //}, [data]);
 
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching data</div>;
@@ -142,20 +135,14 @@ function MyVerticallyCenteredModal(props) {
                 </Form>
                 <div className="row">
 
-                    {PointName || PointNumber || xCoord || yCoord ? (
+                   
 
                         <ScrollLabelList
                             items={data}
                             selectedItem={selectedItem}
                             handleItemClick={handleItemClick}
                         />
-                    ) : (
-                        <ScrollLabelList
-                            items={data}
-                            selectedItem={selectedItem}
-                            handleItemClick={handleItemClick}
-                        />
-                    )}
+                  
 
                 </div>
             </Modal.Body>
@@ -166,11 +153,15 @@ function MyVerticallyCenteredModal(props) {
                 </Button>
             </Modal.Footer>
         </Modal>
+
     );
 }
 
-const QueryPoint = ({ show, onHide }) => {
-    return <MyVerticallyCenteredModal show={show} onHide={onHide} />;
+const QueryPoint = () => {
+    const { isQueryOpen, toggleQuery
+
+    } = useContext(ModalContext);
+    return <MyVerticallyCenteredModal show={isQueryOpen} onHide={() => toggleQuery()}/>;
 };
 
 export default QueryPoint;

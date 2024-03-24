@@ -13,12 +13,13 @@ import { ModalContext } from '../context/modalProvider';
 const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
     const queryClient = useQueryClient();
 
-    const { toggleModify, isModifyOpen, isQueryOpen } = useContext(ModalContext);
+    const { toggleModify, isModifyOpen, isQueryOpen, selectPoint } = useContext(ModalContext);
 
     console.log("m", isModifyOpen, "q", isQueryOpen) 
 
-    const openModifyHandler = (id) => {
-        
+    const openModifyHandler = (item) => {
+        selectPoint(item)
+        console.log(item.pointId)
         toggleModify()
         return null
     }
@@ -80,7 +81,7 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
                                     </Button>
                                     <Button
                                         className="bg-black border-0 mx-3"
-                                        onClick={() => openModifyHandler(item.pointId)}
+                                        onClick={() => openModifyHandler(item)}
                                         style={{ width: '100%', height: '5vh' }}>
                                         Modify
                                     </Button>

@@ -8,11 +8,7 @@ import MapComponent from './Map';
 import { ModalContext } from '../context/modalProvider';
 
 function Navbar() {
-    const [modalShow, setModalShow] = useState(false);
-
-  
-
-    const { isQueryOpen,
+    const { isAddOpen,toggleAdd,
         toggleQuery } = useContext(ModalContext);
 
     const onClickHandler = () => {
@@ -49,8 +45,8 @@ function Navbar() {
                     </div>
                 </div>
             </nav>
-            <AddPoint show={modalShow} onHide={() => setModalShow(false)} />
-            <QueryPoint show={isQueryOpen} onHide={() => toggleQuery()} />
+            <AddPoint show={isAddOpen} onHide={() => toggleAdd()} />
+            <QueryPoint/>
             <Modify/>
         </div>
     );
