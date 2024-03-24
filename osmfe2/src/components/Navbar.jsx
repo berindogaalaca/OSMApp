@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import Button from "./Button";
-import AddPoint from "./AddPoint";
-import QueryPoint from "./QueryPoint";
-import MapComponent from "../components/Map";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React, { useState, useContext } from 'react';
+import Button from './Button';
+import AddPoint from './AddPoint';
+import QueryPoint from './QueryPoint';
+import Modify from './Modify';
+import MapComponent from './Map';
+
+import { ModalContext } from '../context/modalProvider';
 
 function Navbar() {
     const [modalShow, setModalShow] = useState(false);
-    const [modalShowQuery, setModalShowQuery] = useState(false);
 
+  
+
+    const { isQueryOpen,
+        toggleQuery } = useContext(ModalContext);
+
+    const onClickHandler = () => {
+        toggleQuery();
+    };
     const activateMapInteraction = () => {
         if (MapComponent.activateInteraction) {
             MapComponent.activateInteraction();
         } else {
-            console.error("MapComponent.activateInteraction function not found!");
+            console.error('MapComponent.activateInteraction function not found!');
         }
     };
 
-    const queryClient = new QueryClient();
 
     return (
         <div className="d-flex justify-content-center">
-            <nav className="navbar navbar-expand-lg " style={{ height: "9vh" }}>
+            <nav className="navbar navbar-expand-lg " style={{ height: '9vh' }}>
                 <div className="container-fluid">
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
@@ -30,24 +38,20 @@ function Navbar() {
                                     buttontext="Add Point"
                                     buttonclick={activateMapInteraction}
                                 />
-                            </li><QueryClientProvider client={queryClient}>
+                            </li>
                             <li className="nav-item">
-                                    <Button
-                                        buttontext="Query Point"
-                                        buttonclick={() => setModalShowQuery(true)}
-                                    />
-                                    {modalShowQuery && (
-                                        <QueryPoint
-                                            show={modalShowQuery}
-                                            onHide={() => setModalShowQuery(false)}
-                                        />
-                                    )}
-                                </li>   </QueryClientProvider>
+                                <Button
+                                    buttontext="Query Point"
+                                    buttonclick={onClickHandler}
+                                />
+                            </li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <AddPoint show={modalShow} onHide={() => setModalShow(false)} />
+            <QueryPoint show={isQueryOpen} onHide={() => toggleQuery()} />
+            <Modify/>
         </div>
     );
 }

@@ -1,24 +1,33 @@
-import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 import ScrollLabelList from "./ScrollLableList";
 import { ToastContainer } from 'react-toastify';
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../service/DeleteFetch";
+import { ModalContext } from '../context/modalProvider'; 
+
 
 function MyVerticallyCenteredModal(props) {
     const [xCoord, setXCoord] = useState("");
     const [yCoord, setYCoord] = useState("");
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
+
+    const { isQueryOpen, toggleQuery
+
+         } = useContext(ModalContext);
+
     const [selectedItem, setSelectedItem] = useState(null);
     const [filteredItems, setFilteredItems] = useState([]);
 
     const nameRef = useRef(null);
     const numberRef = useRef(null);
+
     const latitude1Ref = useRef(null);
     const longitude1Ref = useRef(null);
+
 
     const addName = (e) => {
         setName(e.target.value);
@@ -42,14 +51,13 @@ function MyVerticallyCenteredModal(props) {
         queryFn: () => fetchData(PointName, PointNumber, xCoord, yCoord),
     });
 
-    useEffect(() => {
-        if (data) {
-            const valuesArray = Object.keys(data).map(key => data[key]);
-            setFilteredItems([...valuesArray]);
-        }
-    }, [data]);
+    //useEffect(() => {
+    //    if (data) {
+    //        const valuesArray = Object.keys(data).map(key => data[key]);
+    //        setFilteredItems([...valuesArray]);
+    //    }
+    //}, [data]);
 
-    console.log(data);
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching data</div>;
 
@@ -60,12 +68,14 @@ function MyVerticallyCenteredModal(props) {
         setYCoord("");
     };
 
+
     return (
         <Modal
             {...props}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+           
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -135,13 +145,13 @@ function MyVerticallyCenteredModal(props) {
                     {PointName || PointNumber || xCoord || yCoord ? (
 
                         <ScrollLabelList
-                            items={filteredItems}
+                            items={data}
                             selectedItem={selectedItem}
                             handleItemClick={handleItemClick}
                         />
                     ) : (
                         <ScrollLabelList
-                            items={filteredItems[0]}
+                            items={data}
                             selectedItem={selectedItem}
                             handleItemClick={handleItemClick}
                         />
@@ -151,7 +161,7 @@ function MyVerticallyCenteredModal(props) {
             </Modal.Body>
             <Modal.Footer>
                 <ToastContainer />
-                <Button className="mx-3 bg-black border-0" onClick={props.onHide}>
+                <Button className="mx-3 bg-black border-0" onClick={toggleQuery}>
                     Close
                 </Button>
             </Modal.Footer>
@@ -160,13 +170,7 @@ function MyVerticallyCenteredModal(props) {
 }
 
 const QueryPoint = ({ show, onHide }) => {
-    const handleClose = () => {
-        onHide();
-        window.location.reload(); // Sayfayý yenile
-    };
-
-    return <MyVerticallyCenteredModal show={show} onHide={handleClose} />;
+    return <MyVerticallyCenteredModal show={show} onHide={onHide} />;
 };
 
 export default QueryPoint;
-

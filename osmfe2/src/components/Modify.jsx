@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ModalContext } from '../context/modalProvider';
 import { toast } from 'react-toastify';
 
 
-const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
-    const [, setShowModal] = useState(false);
+const AddPoint = ({coordinate, deactivateInteraction }) => {
+
+    const { toggleModify, isModifyOpen } = useContext(ModalContext);
 
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
@@ -31,19 +33,12 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
             setLongitude(lon);
         }
     }, [coordinate]);
-
-    const handleClose = () => {
-        setShowModal(false);
-        onHide && onHide();
-
-    };
-
    
 
     return (
         <Modal
-            show={show}
-            onHide={onHide}
+            show={isModifyOpen}
+            onHide={()=>toggleModify()}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -73,6 +68,7 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
                         />
                         <Form.Label>Latitude</Form.Label>
                         <Form.Control
+                            disabled
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Latitude"
@@ -82,6 +78,7 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
                         />
                         <Form.Label>Longitude</Form.Label>
                         <Form.Control
+                            disabled
                             type="number"
                             placeholder="Add Your Longitude"
                             value={longitude}
@@ -95,7 +92,7 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
                 <Button className='bg-black border-0' >Save</Button>
                 <Button className='bg-black border-0' >Change Coordinates</Button>
                 <ToastContainer />
-                <Button className='bg-black border-0' onClick={handleClose}>Close</Button>
+                <Button className='bg-black border-0'>Close</Button>
             </Modal.Footer>
         </Modal>
     );
