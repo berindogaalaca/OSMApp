@@ -9,3 +9,21 @@ export const deleteData = async (pointId) => {
     });
     return response.json();
 }
+
+export const updateData = async (Data) => {
+    const response = await fetch(`https://localhost:7000/api/point/${Data.pointId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Data), 
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data?.Message || 'Something went wrong');
+    }
+
+    return data;
+}

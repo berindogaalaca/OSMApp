@@ -135,14 +135,14 @@ function MyVerticallyCenteredModal(props) {
                 </Form>
                 <div className="row">
 
-                   
+                  
 
                         <ScrollLabelList
                             items={data}
                             selectedItem={selectedItem}
                             handleItemClick={handleItemClick}
                         />
-                  
+                 
 
                 </div>
             </Modal.Body>

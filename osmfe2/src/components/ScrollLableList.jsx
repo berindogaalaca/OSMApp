@@ -5,8 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteData } from '../service/DeleteFetch';
-import Modify from './Modify';
-import QueryPoint from './QueryPoint';
 import { ModalContext } from '../context/modalProvider'; 
 
 
@@ -19,7 +17,6 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
 
     const openModifyHandler = (item) => {
         selectPoint(item)
-        console.log(item.pointId)
         toggleModify()
         return null
     }
@@ -37,9 +34,11 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
     };
 
     if (!items?.data) {
-        return <div>selam</div>
+       
+        return <div>Undefined Point</div>
     }
 
+    const dataArray = Array.isArray(items?.data) ? items.data : [items.data];
     return (
         <div style={{ overflowY: 'auto', maxHeight: '280px' }}>
             <Table responsive="sm">
@@ -53,7 +52,7 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {items?.data?.map((item, index) => (
+                    {dataArray.map((item, index) => (
 
                         <tr
                             key={index}
