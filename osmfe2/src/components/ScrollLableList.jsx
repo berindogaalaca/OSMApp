@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useContext } from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { ToastContainer } from 'react-toastify';
@@ -11,9 +11,9 @@ import { ModalContext } from '../context/modalProvider';
 const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
     const queryClient = useQueryClient();
 
-    const { toggleModify, isModifyOpen, isQueryOpen, selectPoint } = useContext(ModalContext);
+    const { toggleModify, selectPoint } = useContext(ModalContext);
 
-    console.log("m", isModifyOpen, "q", isQueryOpen)
+  
 
     const openModifyHandler = (item) => {
         selectPoint(item)

@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import {  useContext } from 'react';
 import Button from './Button';
 import AddPoint from './AddPoint';
 import QueryPoint from './QueryPoint';
 import Modify from './Modify';
-import MapComponent from './Map';
 
 import { ModalContext } from '../context/modalProvider';
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { ModalContext } from '../context/modalProvider'; 
 
 
-const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
+const AddPoint = ({onHide, coordinate, deactivateInteraction }) => {
     const [, setShowModal] = useState(false);
     const { isAddOpen,
         toggleAdd, } = useContext(ModalContext);
@@ -57,7 +57,6 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.message);
                 const message = data.message;
                 toast.success(message, {
                     position: "top-right",

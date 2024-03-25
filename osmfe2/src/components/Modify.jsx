@@ -17,7 +17,7 @@ const Modify = ({ onClick, coordinate }) => {
         pointName: '',
         pointNumber: '',
         latitude: '',
-        longitude:''
+        longitude: ''
     });
     console.log(coordinate)
     useEffect(() => {
@@ -27,7 +27,7 @@ const Modify = ({ onClick, coordinate }) => {
             latitude: coordinate ? coordinate[1] : selectedPoint?.latitude,
             longitude: coordinate ? coordinate[0] : selectedPoint?.longitude,
         });
-    }, [selectedPoint,coordinate]);
+    }, [selectedPoint, coordinate]);
 
     const mutation = useMutation({
         mutationFn: updateData,
@@ -56,7 +56,7 @@ const Modify = ({ onClick, coordinate }) => {
         };
         mutation.mutate(updatedPoint);
     };
-   
+
     return (
         <Modal
             show={isModifyOpen}

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from 'react';
+import  { useRef, useEffect, useState, useContext } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -23,7 +23,7 @@ const MapComponent = () => {
     const mapInstance = useRef(null);
     const [coordinate, setCoordinate] = useState(null);
     const { isAddOpen, toggleAdd, isInteractionOpen, toggleInteraction, isDrawInteractionOpen,
-        toggleDrawInteraction,toggleModifyOpen } = useContext(ModalContext);
+        toggleDrawInteraction, toggleModifyOpen } = useContext(ModalContext);
     const locationIconStyle = new Style({
         image: new Icon({
             src: 'locationicon.svg',
@@ -99,7 +99,7 @@ const MapComponent = () => {
         const draw = new Draw({
             source: vectorLayer.getSource(),
             type: 'Point',
-            active: false, 
+            active: false,
         });
 
         const modify = new Modify({
@@ -119,12 +119,12 @@ const MapComponent = () => {
         });
 
         modify.on('modifyend', (event) => {
-            const feature = event.features.item(0); // ilk öğeyi alır
+            const feature = event.features.item(0); 
             if (feature) {
                 feature.setStyle(locationIconStyle);
                 const coords = feature.getGeometry().getCoordinates();
                 setCoordinate(coords);
-                toggleModifyOpen(true); // Modify açılsın
+                toggleModifyOpen(true); 
             }
         });
 

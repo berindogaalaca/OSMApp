@@ -30,17 +30,15 @@ export const ModalProvider = ({ children }) => {
       
     };
     const toggleModifyOpen = () => {
-        setModifyOpen(!isModifyOpen);
-
+        setModifyOpen(!isModifyOpen);     
     };
     const toggleModifyClose = () => {
         setModifyOpen(!isModifyOpen);
         setQueryOpen(false);
-
     };
     const selectPoint = (item) => {
         setSelectedPoint(item);
-        console.log(item);
+      
     }
     const closeAllModal = () => {
         setQueryOpen(false);
@@ -49,6 +47,7 @@ export const ModalProvider = ({ children }) => {
  const toggleDrawInteraction = () => {
      setDrawInteractionOpen(!isInteractionOpen)
      closeAllModal()
+    
     }
     return (
         <ModalContext.Provider
