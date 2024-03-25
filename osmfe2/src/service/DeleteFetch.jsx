@@ -16,7 +16,7 @@ export const updateData = async (Data) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(Data), 
+        body: JSON.stringify(Data),
     });
 
     const data = await response.json();

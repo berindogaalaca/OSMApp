@@ -8,12 +8,17 @@ export const ModalProvider = ({ children }) => {
     const [isAddOpen, setAddOpen] = useState(false);
     const [isModifyOpen, setModifyOpen] = useState(false);
     const [selectedPoint, setSelectedPoint] = useState(null);
+    const [isInteractionOpen, setInteractionOpen] = useState(false);
+
 
     const toggleQuery = () => {
         setQueryOpen(!isQueryOpen);
     };
     const toggleAdd = () => {
         setAddOpen(!isAddOpen)
+    }
+    const toggleInteraction = () => {
+        setInteractionOpen(!isInteractionOpen)
     }
 
     const toggleModify = () => {
@@ -42,6 +47,8 @@ export const ModalProvider = ({ children }) => {
                 closeAllModal,
                 selectPoint,
                 selectedPoint,
+                isInteractionOpen,
+                toggleInteraction
             }}
         >
             {children}

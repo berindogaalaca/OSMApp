@@ -6,7 +6,7 @@ import ScrollLabelList from "./ScrollLableList";
 import { ToastContainer } from 'react-toastify';
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../service/DeleteFetch";
-import { ModalContext } from '../context/modalProvider'; 
+import { ModalContext } from '../context/modalProvider';
 
 
 function MyVerticallyCenteredModal(props) {
@@ -15,9 +15,7 @@ function MyVerticallyCenteredModal(props) {
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
 
-    const { toggleQuery
-
-         } = useContext(ModalContext);
+    const { toggleQuery} = useContext(ModalContext);
 
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -68,7 +66,7 @@ function MyVerticallyCenteredModal(props) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-           
+
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -135,14 +133,14 @@ function MyVerticallyCenteredModal(props) {
                 </Form>
                 <div className="row">
 
-                  
 
-                        <ScrollLabelList
-                            items={data}
-                            selectedItem={selectedItem}
-                            handleItemClick={handleItemClick}
-                        />
-                 
+
+                    <ScrollLabelList
+                        items={data}
+                        selectedItem={selectedItem}
+                        handleItemClick={handleItemClick}
+                    />
+
 
                 </div>
             </Modal.Body>
@@ -161,7 +159,7 @@ const QueryPoint = () => {
     const { isQueryOpen, toggleQuery
 
     } = useContext(ModalContext);
-    return <MyVerticallyCenteredModal show={isQueryOpen} onHide={() => toggleQuery()}/>;
+    return <MyVerticallyCenteredModal show={isQueryOpen} onHide={() => toggleQuery()} />;
 };
 
 export default QueryPoint;

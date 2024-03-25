@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { ModalContext } from '../context/modalProvider'; 
 
 
 const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
-  const [ , setShowModal] = useState(false);
+    const [, setShowModal] = useState(false);
+    const { isAddOpen,
+        toggleAdd, } = useContext(ModalContext);
 
-  const [PointName, setName] = useState("");
-  const [PointNumber, setNumber] = useState("");
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+    
+    const [PointName, setName] = useState("");
+    const [PointNumber, setNumber] = useState("");
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const addName = (e) => {
         setName(e.target.value);
@@ -25,20 +29,20 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
     const Latitude = latitude;
     const Longitude = longitude;
 
-  useEffect(() => {
-    if (coordinate) {
-      const [lon, lat] = coordinate;
-      setLatitude(lat);
-      setLongitude(lon);
-    }
-  }, [coordinate]);
+    useEffect(() => {
+        if (coordinate) {
+            const [lon, lat] = coordinate;
+            setLatitude(lat);
+            setLongitude(lon);
+        }
+    }, [coordinate]);
 
-  const handleClose = () => {
-    setShowModal(false);
-    onHide && onHide();
-      deactivateInteraction();
-      window.location.reload();
-  };
+    const handleClose = () => {
+        setShowModal(false);
+        onHide && onHide();
+        deactivateInteraction();
+        window.location.reload();
+    };
 
     const addPoint = async (e) => {
         e.preventDefault();
@@ -93,64 +97,63 @@ const AddPoint = ({ show, onHide, coordinate, deactivateInteraction }) => {
         handleClose();
     };
 
-  return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Add Point
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              className='mb-2'
-              type="text"
-              placeholder="Add Your Coordinate Name"
-              autoFocus
-                          onChange={addName}
-            />
-            <Form.Label>Number</Form.Label>
-            <Form.Control
-              className='mb-2'
-              type="number"
-              placeholder="Add Your Coordinate Number"
-                          onChange={addNumber}
-            />
-            <Form.Label>Latitude</Form.Label>
-            <Form.Control
-              className='mb-2'
-              type="number"
-              placeholder="Add Your Latitude"
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
-              readOnly
-            />
-            <Form.Label>Longitude</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Add Your Longitude"
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
-              readOnly 
-            />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-              <Button className='bg-black border-0' onClick={addPoint}>Save</Button>
-        <ToastContainer/>
-        <Button className='bg-black border-0' onClick={handleClose}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
+    return (
+        <Modal
+            show={isAddOpen} onHide={() => toggleAdd()}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Add Point
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            className='mb-2'
+                            type="text"
+                            placeholder="Add Your Coordinate Name"
+                            autoFocus
+                            onChange={addName}
+                        />
+                        <Form.Label>Number</Form.Label>
+                        <Form.Control
+                            className='mb-2'
+                            type="number"
+                            placeholder="Add Your Coordinate Number"
+                            onChange={addNumber}
+                        />
+                        <Form.Label>Latitude</Form.Label>
+                        <Form.Control
+                            className='mb-2'
+                            type="number"
+                            placeholder="Add Your Latitude"
+                            value={latitude}
+                            onChange={(e) => setLatitude(e.target.value)}
+                            readOnly
+                        />
+                        <Form.Label>Longitude</Form.Label>
+                        <Form.Control
+                            type="number"
+                            placeholder="Add Your Longitude"
+                            value={longitude}
+                            onChange={(e) => setLongitude(e.target.value)}
+                            readOnly
+                        />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button className='bg-black border-0' onClick={addPoint}>Save</Button>
+                <ToastContainer />
+                <Button className='bg-black border-0' onClick={handleClose}>Close</Button>
+            </Modal.Footer>
+        </Modal>
+    );
 };
 
 export default AddPoint;

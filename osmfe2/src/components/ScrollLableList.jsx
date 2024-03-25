@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteData } from '../service/DeleteFetch';
-import { ModalContext } from '../context/modalProvider'; 
+import { ModalContext } from '../context/modalProvider';
 
 
 const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
@@ -13,7 +13,7 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
 
     const { toggleModify, isModifyOpen, isQueryOpen, selectPoint } = useContext(ModalContext);
 
-    console.log("m", isModifyOpen, "q", isQueryOpen) 
+    console.log("m", isModifyOpen, "q", isQueryOpen)
 
     const openModifyHandler = (item) => {
         selectPoint(item)
@@ -34,7 +34,7 @@ const ScrollLabelList = ({ items, selectedItem, handleItemClick }) => {
     };
 
     if (!items?.data) {
-       
+
         return <div>Undefined Point</div>
     }
 

@@ -8,19 +8,16 @@ import MapComponent from './Map';
 import { ModalContext } from '../context/modalProvider';
 
 function Navbar() {
-    const { isAddOpen,toggleAdd,
-        toggleQuery } = useContext(ModalContext);
+    const {
+    toggleQuery, toggleInteraction } = useContext(ModalContext);
 
     const onClickHandler = () => {
         toggleQuery();
     };
-    const activateMapInteraction = () => {
-        if (MapComponent.activateInteraction) {
-            MapComponent.activateInteraction();
-        } else {
-            console.error('MapComponent.activateInteraction function not found!');
-        }
+    const onClickAdd = () => {
+        toggleInteraction(); 
     };
+
 
 
     return (
@@ -32,7 +29,7 @@ function Navbar() {
                             <li className="nav-item mx-3">
                                 <Button
                                     buttontext="Add Point"
-                                    buttonclick={activateMapInteraction}
+                                    buttonclick={onClickAdd}
                                 />
                             </li>
                             <li className="nav-item">
@@ -45,7 +42,7 @@ function Navbar() {
                     </div>
                 </div>
             </nav>
-            <AddPoint show={isAddOpen} onHide={() => toggleAdd()} />
+            <AddPoint  />
             <QueryPoint/>
             <Modify/>
         </div>
