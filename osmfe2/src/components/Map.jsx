@@ -11,6 +11,7 @@ import { Vector as VectorSource } from 'ol/source';
 import Draw from 'ol/interaction/Draw';
 import Modify from 'ol/interaction/Modify';
 import AddPoint from './AddPoint';
+import ModifyChange from './Modify';
 import { ModalContext } from '../context/modalProvider';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
@@ -21,7 +22,8 @@ const MapComponent = () => {
     const mapRef = useRef(null);
     const mapInstance = useRef(null);
     const [coordinate, setCoordinate] = useState(null);
-    const { isAddOpen, toggleAdd, isInteractionOpen, toggleInteraction } = useContext(ModalContext);
+    const { isAddOpen, toggleAdd, isInteractionOpen, toggleInteraction, isDrawInteractionOpen,
+        toggleDrawInteraction,toggleModifyOpen } = useContext(ModalContext);
     const locationIconStyle = new Style({
         image: new Icon({
             src: 'locationicon.svg',
@@ -37,19 +39,17 @@ const MapComponent = () => {
 
 
     useEffect(() => {
-        if (isLoading) return; 
-        if (isError) return; 
+        if (isLoading) return;
+        if (isError) return;
 
         if (!mapInstance.current) return;
 
         const vectorLayer = mapInstance.current?.getLayers().getArray().find(layer => layer instanceof VectorLayer);
-        if (!vectorLayer) return; 
+        if (!vectorLayer) return;
         const valuesArray = Object.keys(data).map(key => data[key]);
         valuesArray[0].forEach(coordinate => {
             const { latitude, longitude } = coordinate;
-            console.log("sdfd",coordinate)
-            const coord = [longitude,latitude];
-            console.log(coord)
+            const coord = [longitude, latitude];
             const iconFeature = new Feature({ geometry: new Point(coord) });
             iconFeature.setStyle(locationIconStyle);
             vectorLayer.getSource().addFeature(iconFeature);
@@ -99,11 +99,12 @@ const MapComponent = () => {
         const draw = new Draw({
             source: vectorLayer.getSource(),
             type: 'Point',
-            active: false, // Interaction başlangıçta pasif olarak ayarlanır
+            active: false, 
         });
 
         const modify = new Modify({
             source: vectorLayer.getSource(),
+            active: false,
         });
 
         map.addInteraction(draw);
@@ -116,6 +117,17 @@ const MapComponent = () => {
             setCoordinate(coords);
             toggleAdd(true);
         });
+
+        modify.on('modifyend', (event) => {
+            const feature = event.features.item(0); // ilk öğeyi alır
+            if (feature) {
+                feature.setStyle(locationIconStyle);
+                const coords = feature.getGeometry().getCoordinates();
+                setCoordinate(coords);
+                toggleModifyOpen(true); // Modify açılsın
+            }
+        });
+
 
         mapInstance.current = map;
 
@@ -138,11 +150,17 @@ const MapComponent = () => {
             drawInteraction.setActive(isInteractionOpen);
         }
     }, [isInteractionOpen]);
-
+    useEffect(() => {
+        const modifyInteraction = mapInstance.current?.getInteractions().getArray().find(interaction => interaction instanceof Modify);
+        if (modifyInteraction) {
+            modifyInteraction.setActive(isDrawInteractionOpen);
+        }
+    }, [isDrawInteractionOpen]);
     return (
         <>
             <div ref={mapRef} className="map" style={{ width: '100%', height: '91vh' }}></div>
             <AddPoint show={isAddOpen} onHide={() => toggleAdd(false)} coordinate={coordinate} onClick={toggleInteraction} />
+            <ModifyChange coordinate={coordinate} onClick={toggleDrawInteraction} />
         </>
     );
 };

@@ -1,5 +1,4 @@
 import { useState, createContext } from 'react';
-
 export const ModalContext = createContext();
 
 
@@ -9,6 +8,7 @@ export const ModalProvider = ({ children }) => {
     const [isModifyOpen, setModifyOpen] = useState(false);
     const [selectedPoint, setSelectedPoint] = useState(null);
     const [isInteractionOpen, setInteractionOpen] = useState(false);
+    const [isDrawInteractionOpen, setDrawInteractionOpen] = useState(false);
 
 
     const toggleQuery = () => {
@@ -17,14 +17,26 @@ export const ModalProvider = ({ children }) => {
     const toggleAdd = () => {
         setAddOpen(!isAddOpen)
     }
+    const handleCoordinateChange = () => {
+        setQueryOpen(false)
+    }
     const toggleInteraction = () => {
         setInteractionOpen(!isInteractionOpen)
     }
-
+   
     const toggleModify = () => {
         setModifyOpen(!isModifyOpen);
         setQueryOpen(!isQueryOpen);
       
+    };
+    const toggleModifyOpen = () => {
+        setModifyOpen(!isModifyOpen);
+
+    };
+    const toggleModifyClose = () => {
+        setModifyOpen(!isModifyOpen);
+        setQueryOpen(false);
+
     };
     const selectPoint = (item) => {
         setSelectedPoint(item);
@@ -34,7 +46,10 @@ export const ModalProvider = ({ children }) => {
         setQueryOpen(false);
         setModifyOpen(false);
     };
-
+ const toggleDrawInteraction = () => {
+     setDrawInteractionOpen(!isInteractionOpen)
+     closeAllModal()
+    }
     return (
         <ModalContext.Provider
             value={{
@@ -48,7 +63,12 @@ export const ModalProvider = ({ children }) => {
                 selectPoint,
                 selectedPoint,
                 isInteractionOpen,
-                toggleInteraction
+                toggleInteraction,
+                isDrawInteractionOpen,
+                toggleDrawInteraction,
+                toggleModifyClose,
+                handleCoordinateChange,
+                toggleModifyOpen
             }}
         >
             {children}

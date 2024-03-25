@@ -8,9 +8,10 @@ import { ModalContext } from '../context/modalProvider';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateData } from '../service/DeleteFetch';
 
-const Modify = () => {
+const Modify = ({ onClick, coordinate }) => {
     const queryClient = useQueryClient();
     const { toggleModify, isModifyOpen, selectedPoint } = useContext(ModalContext);
+
 
     const [formData, setFormData] = useState({
         pointName: '',
@@ -18,15 +19,15 @@ const Modify = () => {
         latitude: '',
         longitude:''
     });
-
+    console.log(coordinate)
     useEffect(() => {
         setFormData({
             pointName: selectedPoint?.pointName,
             pointNumber: selectedPoint?.pointNumber,
-            latitude:selectedPoint?.latitude,
-            longitude:selectedPoint?.longitude
+            latitude: coordinate ? coordinate[1] : selectedPoint?.latitude,
+            longitude: coordinate ? coordinate[0] : selectedPoint?.longitude,
         });
-    }, [selectedPoint]);
+    }, [selectedPoint,coordinate]);
 
     const mutation = useMutation({
         mutationFn: updateData,
@@ -113,7 +114,7 @@ const Modify = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button className='bg-black border-0' onClick={updateHandler}>Save</Button>
-                <Button className='bg-black border-0' onClick={toggleModify}>Change Coordinates</Button>
+                <Button className='bg-black border-0' onClick={onClick}>Change Coordinates</Button>
                 <ToastContainer />
             </Modal.Footer>
         </Modal>
