@@ -6,96 +6,47 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { ModalContext } from '../context/modalProvider'; 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addData } from '../service/DeleteFetch';
 
 
-const AddPoint = ({onHide, coordinate, deactivateInteraction }) => {
+const AddPoint = ({onHide, coordinate }) => {
     const [, setShowModal] = useState(false);
-    const { isAddOpen,
-        toggleAdd, } = useContext(ModalContext);
+    const { isAddOpen, toggleAdd, toggleInteraction } = useContext(ModalContext);
+    const queryClient = useQueryClient();
 
-    
-    const [PointName, setName] = useState("");
-    const [PointNumber, setNumber] = useState("");
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-
-    const addName = (e) => {
-        setName(e.target.value);
-    };
-    const addNumber = (e) => {
-        setNumber(e.target.value);
-    };
-
-    const Latitude = latitude;
-    const Longitude = longitude;
+    const [formData, setFormData] = useState({
+        pointName: '',
+        pointNumber: '',
+        latitude: '',
+        longitude: ''
+    });
 
     useEffect(() => {
-        if (coordinate) {
-            const [lon, lat] = coordinate;
-            setLatitude(lat);
-            setLongitude(lon);
-        }
+        setFormData({
+            pointName: formData.pointName,
+            pointNumber: formData.pointNumber,
+            latitude: coordinate ? coordinate[1] : formData.latitude,
+            longitude: coordinate ? coordinate[0] : formData.longitude,
+        });
     }, [coordinate]);
-
-    const handleClose = () => {
-        setShowModal(false);
-        onHide && onHide();
-        deactivateInteraction();
-        window.location.reload();
-    };
 
     const addPoint = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("https://localhost:7000/api/point", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ PointName, PointNumber, Latitude, Longitude }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                const message = data.message;
-                toast.success(message, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined, className: "toast-message",
-                });
-                console.log(response);
-
-                return response;
-            } else {
-                toast.error('You must fill in all fields', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-            }
-            return response;
+            await addData(formData);
+            handleClose();
+            queryClient.invalidateQueries('data');
         } catch (error) {
-            toast.error(error.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            console.error(error);
         }
-        handleClose();
     };
 
+    const handleClose = () => {
+        setShowModal(false);
+        onHide && onHide();
+        toggleInteraction()
+    };
     return (
         <Modal
             show={isAddOpen} onHide={() => toggleAdd()}
@@ -117,30 +68,32 @@ const AddPoint = ({onHide, coordinate, deactivateInteraction }) => {
                             type="text"
                             placeholder="Add Your Coordinate Name"
                             autoFocus
-                            onChange={addName}
+                            value={formData.pointName} // value özelliði formData'nýn pointName alanýna baðlanýr
+                            onChange={(e) => setFormData({ ...formData, pointName: e.target.value })} // onChange ile formData'nýn pointName alaný güncellenir
                         />
                         <Form.Label>Number</Form.Label>
                         <Form.Control
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Coordinate Number"
-                            onChange={addNumber}
+                            value={formData.pointNumber} // value özelliði formData'nýn pointNumber alanýna baðlanýr
+                            onChange={(e) => setFormData({ ...formData, pointNumber: e.target.value })} // onChange ile formData'nýn pointNumber alaný güncellenir
                         />
                         <Form.Label>Latitude</Form.Label>
                         <Form.Control
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Latitude"
-                            value={latitude}
-                            onChange={(e) => setLatitude(e.target.value)}
+                            value={formData.latitude} // value özelliði formData'nýn latitude alanýna baðlanýr
+                            onChange={(e) => setFormData({ ...formData, latitude: e.target.value })} // onChange ile formData'nýn latitude alaný güncellenir
                             readOnly
                         />
                         <Form.Label>Longitude</Form.Label>
                         <Form.Control
                             type="number"
                             placeholder="Add Your Longitude"
-                            value={longitude}
-                            onChange={(e) => setLongitude(e.target.value)}
+                            value={formData.longitude} // value özelliði formData'nýn longitude alanýna baðlanýr
+                            onChange={(e) => setFormData({ ...formData, longitude: e.target.value })} // onChange ile formData'nýn longitude alaný güncellenir
                             readOnly
                         />
                     </Form.Group>
