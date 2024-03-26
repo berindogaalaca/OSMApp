@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ModalContext } from '../context/modalProvider';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { updateData } from '../service/DeleteFetch';
 
 const Modify = ({ onClick, coordinate }) => {
-    const queryClient = useQueryClient();
     const { toggleModify, isModifyOpen, selectedPoint } = useContext(ModalContext);
 
 
@@ -19,7 +18,6 @@ const Modify = ({ onClick, coordinate }) => {
         latitude: '',
         longitude: ''
     });
-    console.log(coordinate)
     useEffect(() => {
         setFormData({
             pointName: selectedPoint?.pointName,
@@ -32,15 +30,7 @@ const Modify = ({ onClick, coordinate }) => {
     const mutation = useMutation({
         mutationFn: updateData,
         mutationKey: 'put',
-        onSuccess: () => {
-            queryClient.invalidateQueries('data');
-            toast.success('Point updated successfully');
-        },
-        onError: (error) => {
-            toast.error('Error updating point: ' + error.message);
-        },
     });
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -56,7 +46,7 @@ const Modify = ({ onClick, coordinate }) => {
         };
         mutation.mutate(updatedPoint);
     };
-
+ 
     return (
         <Modal
             show={isModifyOpen}

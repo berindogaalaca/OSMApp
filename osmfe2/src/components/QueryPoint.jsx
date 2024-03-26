@@ -59,7 +59,11 @@ function MyVerticallyCenteredModal(props) {
         setYCoord("");
     };
 
-
+    const handleClose = () => {
+      
+        toggleQuery()
+        window.location.reload();
+    };
     return (
         <Modal
             {...props}
@@ -68,7 +72,7 @@ function MyVerticallyCenteredModal(props) {
             centered
 
         >
-            <Modal.Header closeButton>
+            <Modal.Header >
                 <Modal.Title id="contained-modal-title-vcenter">
                     Query Point{" "}
                 </Modal.Title>
@@ -146,7 +150,7 @@ function MyVerticallyCenteredModal(props) {
             </Modal.Body>
             <Modal.Footer>
                 <ToastContainer />
-                <Button className="mx-3 bg-black border-0" onClick={toggleQuery}>
+                <Button className="mx-3 bg-black border-0" onClick={handleClose}>
                     Close
                 </Button>
             </Modal.Footer>

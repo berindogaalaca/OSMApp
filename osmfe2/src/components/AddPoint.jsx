@@ -3,10 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 import { ModalContext } from '../context/modalProvider'; 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import 'react-toastify/dist/ReactToastify.css';
+import {useQueryClient } from '@tanstack/react-query';
 import { addData } from '../service/DeleteFetch';
 
 
@@ -35,7 +34,7 @@ const AddPoint = ({onHide, coordinate }) => {
         e.preventDefault();
         try {
             await addData(formData);
-            handleClose();
+            
             queryClient.invalidateQueries('data');
         } catch (error) {
             console.error(error);
@@ -46,6 +45,7 @@ const AddPoint = ({onHide, coordinate }) => {
         setShowModal(false);
         onHide && onHide();
         toggleInteraction()
+        window.location.reload();
     };
     return (
         <Modal
@@ -54,7 +54,7 @@ const AddPoint = ({onHide, coordinate }) => {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header >
                 <Modal.Title id="contained-modal-title-vcenter">
                     Add Point
                 </Modal.Title>
@@ -68,32 +68,32 @@ const AddPoint = ({onHide, coordinate }) => {
                             type="text"
                             placeholder="Add Your Coordinate Name"
                             autoFocus
-                            value={formData.pointName} // value özelliði formData'nýn pointName alanýna baðlanýr
-                            onChange={(e) => setFormData({ ...formData, pointName: e.target.value })} // onChange ile formData'nýn pointName alaný güncellenir
+                            value={formData.pointName} 
+                            onChange={(e) => setFormData({ ...formData, pointName: e.target.value })} 
                         />
                         <Form.Label>Number</Form.Label>
                         <Form.Control
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Coordinate Number"
-                            value={formData.pointNumber} // value özelliði formData'nýn pointNumber alanýna baðlanýr
-                            onChange={(e) => setFormData({ ...formData, pointNumber: e.target.value })} // onChange ile formData'nýn pointNumber alaný güncellenir
+                            value={formData.pointNumber} 
+                            onChange={(e) => setFormData({ ...formData, pointNumber: e.target.value })} 
                         />
                         <Form.Label>Latitude</Form.Label>
                         <Form.Control
                             className='mb-2'
                             type="number"
                             placeholder="Add Your Latitude"
-                            value={formData.latitude} // value özelliði formData'nýn latitude alanýna baðlanýr
-                            onChange={(e) => setFormData({ ...formData, latitude: e.target.value })} // onChange ile formData'nýn latitude alaný güncellenir
+                            value={formData.latitude} 
+                            onChange={(e) => setFormData({ ...formData, latitude: e.target.value })} 
                             readOnly
                         />
                         <Form.Label>Longitude</Form.Label>
                         <Form.Control
                             type="number"
                             placeholder="Add Your Longitude"
-                            value={formData.longitude} // value özelliði formData'nýn longitude alanýna baðlanýr
-                            onChange={(e) => setFormData({ ...formData, longitude: e.target.value })} // onChange ile formData'nýn longitude alaný güncellenir
+                            value={formData.longitude} 
+                            onChange={(e) => setFormData({ ...formData, longitude: e.target.value })} 
                             readOnly
                         />
                     </Form.Group>
@@ -101,8 +101,8 @@ const AddPoint = ({onHide, coordinate }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button className='bg-black border-0' onClick={addPoint}>Save</Button>
-                <ToastContainer />
                 <Button className='bg-black border-0' onClick={handleClose}>Close</Button>
+                <ToastContainer />
             </Modal.Footer>
         </Modal>
     );
