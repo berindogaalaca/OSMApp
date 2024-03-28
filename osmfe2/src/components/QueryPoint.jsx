@@ -15,7 +15,7 @@ function MyVerticallyCenteredModal(props) {
     const [PointName, setName] = useState("");
     const [PointNumber, setNumber] = useState("");
 
-    const { toggleQuery} = useContext(ModalContext);
+    const { toggleQuery } = useContext(ModalContext);
 
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -60,7 +60,7 @@ function MyVerticallyCenteredModal(props) {
     };
 
     const handleClose = () => {
-      
+
         toggleQuery()
         window.location.reload();
     };

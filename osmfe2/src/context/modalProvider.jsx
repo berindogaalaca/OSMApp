@@ -23,14 +23,14 @@ export const ModalProvider = ({ children }) => {
     const toggleInteraction = () => {
         setInteractionOpen(!isInteractionOpen)
     }
-   
+
     const toggleModify = () => {
         setModifyOpen(!isModifyOpen);
         setQueryOpen(!isQueryOpen);
-      
+
     };
     const toggleModifyOpen = () => {
-        setModifyOpen(!isModifyOpen);     
+        setModifyOpen(!isModifyOpen);
     };
     const toggleModifyClose = () => {
         setModifyOpen(!isModifyOpen);
@@ -38,16 +38,16 @@ export const ModalProvider = ({ children }) => {
     };
     const selectPoint = (item) => {
         setSelectedPoint(item);
-      
+
     }
     const closeAllModal = () => {
         setQueryOpen(false);
         setModifyOpen(false);
     };
- const toggleDrawInteraction = () => {
-     setDrawInteractionOpen(!isInteractionOpen)
-     closeAllModal()
-    
+    const toggleDrawInteraction = () => {
+        setDrawInteractionOpen(!isInteractionOpen)
+        closeAllModal()
+
     }
     return (
         <ModalContext.Provider
@@ -74,5 +74,3 @@ export const ModalProvider = ({ children }) => {
         </ModalContext.Provider>
     );
 };
-
-

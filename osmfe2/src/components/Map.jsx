@@ -1,4 +1,4 @@
-import  { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -23,7 +23,7 @@ const MapComponent = () => {
     const mapInstance = useRef(null);
     const [coordinate, setCoordinate] = useState(null);
     const { isAddOpen, toggleAdd, isInteractionOpen, toggleInteraction, isDrawInteractionOpen,
-        toggleDrawInteraction, toggleModifyOpen } = useContext(ModalContext);
+        toggleDrawInteraction, toggleModifyOpen, selectedPoint } = useContext(ModalContext);
     const locationIconStyle = new Style({
         image: new Icon({
             src: 'locationicon.svg',
@@ -31,29 +31,40 @@ const MapComponent = () => {
             anchor: [0.5, 1],
         }),
     });
-
+    const latitude = selectedPoint !== null ? selectedPoint.latitude : " ";
+    const longitude = selectedPoint !== null ? selectedPoint.longitude : " ";
     const { data, isError, isLoading } = useQuery({
-        queryKey: ['Point', "", "", "", ""],
-        queryFn: () => fetchData("", "", "", ""),
-    });
+        queryKey: ['Point', "", "", latitude, longitude],
+        queryFn: () => fetchData("", "", latitude, longitude),
 
+    });
 
     useEffect(() => {
         if (isLoading) return;
         if (isError) return;
-
         if (!mapInstance.current) return;
-
         const vectorLayer = mapInstance.current?.getLayers().getArray().find(layer => layer instanceof VectorLayer);
         if (!vectorLayer) return;
         const valuesArray = Object.keys(data).map(key => data[key]);
-        valuesArray[0].forEach(coordinate => {
-            const { latitude, longitude } = coordinate;
-            const coord = [longitude, latitude];
-            const iconFeature = new Feature({ geometry: new Point(coord) });
-            iconFeature.setStyle(locationIconStyle);
-            vectorLayer.getSource().addFeature(iconFeature);
-        });
+        console.log(isDrawInteractionOpen)
+        const dataArray1 = valuesArray[0];
+        const dataArray = Array.isArray(dataArray1) ? dataArray1 : [dataArray1];
+        if (isDrawInteractionOpen) {
+            vectorLayer.getSource().clear();
+                const coord = [valuesArray[0].longitude, valuesArray[0].latitude];
+                const iconFeature = new Feature({ geometry: new Point(coord) });
+                iconFeature.setStyle(locationIconStyle);
+                vectorLayer.getSource().addFeature(iconFeature);  
+        }
+        else {
+            dataArray.forEach(coordinate => {
+                const { latitude, longitude } = coordinate;
+                const coord = [longitude, latitude];
+                const iconFeature = new Feature({ geometry: new Point(coord) });
+                iconFeature.setStyle(locationIconStyle);
+                vectorLayer.getSource().addFeature(iconFeature);
+            }); 
+        }  
     }, [isLoading, isError, locationIconStyle]);
 
     useEffect(() => {
@@ -119,12 +130,12 @@ const MapComponent = () => {
         });
 
         modify.on('modifyend', (event) => {
-            const feature = event.features.item(0); 
+            const feature = event.features.item(0);
             if (feature) {
                 feature.setStyle(locationIconStyle);
                 const coords = feature.getGeometry().getCoordinates();
                 setCoordinate(coords);
-                toggleModifyOpen(true); 
+                toggleModifyOpen(true);
             }
         });
 
