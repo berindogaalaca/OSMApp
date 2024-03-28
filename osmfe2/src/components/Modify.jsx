@@ -20,10 +20,10 @@ const Modify = ({ onClick, coordinate }) => {
     });
     useEffect(() => {
         setFormData({
-            pointName: selectedPoint?.pointName,
-            pointNumber: selectedPoint?.pointNumber,
-            latitude: coordinate ? coordinate[1] : selectedPoint?.latitude,
-            longitude: coordinate ? coordinate[0] : selectedPoint?.longitude,
+            pointName: selectedPoint?.pointName || '',
+            pointNumber: selectedPoint?.pointNumber || '',
+            latitude: coordinate ? coordinate[1] : selectedPoint?.latitude || '',
+            longitude: coordinate ? coordinate[0] : selectedPoint?.longitude || '',
         });
     }, [selectedPoint, coordinate]);
 
