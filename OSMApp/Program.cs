@@ -1,11 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://localhost:5174").AllowAnyHeader().AllowAnyMethod();
     });
 
 });

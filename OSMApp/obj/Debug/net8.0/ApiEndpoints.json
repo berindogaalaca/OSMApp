@@ -122,5 +122,57 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "OSMApp.Controllers.PolygonController",
+    "Method": "ConvertJsonToGeometry",
+    "RelativePath": "api/Polygon",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "locationElement",
+        "Type": "System.Text.Json.JsonElement",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "NetTopologySuite.Geometries.Geometry",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OSMApp.Controllers.PolygonController",
+    "Method": "AddPolygon",
+    "RelativePath": "api/Polygon",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestBody",
+        "Type": "System.Text.Json.JsonElement",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OSMApp.Models.Response",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

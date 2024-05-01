@@ -8,8 +8,11 @@
     ".NETCoreApp,Version=v8.0": {
       "EntityLayer/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.2",
-          "Microsoft.EntityFrameworkCore.Tools": "8.0.2",
+          "Microsoft.EntityFrameworkCore": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Design": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Tools": "8.0.4",
+          "NetTopologySuite": "2.5.0",
+          "NetTopologySuite.IO.GeoJSON": "4.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.2"
         },
         "runtime": {
@@ -253,59 +256,59 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/8.0.2": {
+      "Microsoft.EntityFrameworkCore/8.0.4": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.2",
-          "Microsoft.EntityFrameworkCore.Analyzers": "8.0.2",
+          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Analyzers": "8.0.4",
           "Microsoft.Extensions.Caching.Memory": "8.0.0",
           "Microsoft.Extensions.Logging": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.dll": {
-            "assemblyVersion": "8.0.2.0",
-            "fileVersion": "8.0.224.6803"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/8.0.2": {
+      "Microsoft.EntityFrameworkCore.Abstractions/8.0.4": {
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
-            "assemblyVersion": "8.0.2.0",
-            "fileVersion": "8.0.224.6803"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/8.0.2": {},
-      "Microsoft.EntityFrameworkCore.Design/8.0.2": {
+      "Microsoft.EntityFrameworkCore.Analyzers/8.0.4": {},
+      "Microsoft.EntityFrameworkCore.Design/8.0.4": {
         "dependencies": {
           "Humanizer.Core": "2.14.1",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "4.5.0",
-          "Microsoft.EntityFrameworkCore.Relational": "8.0.2",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.4",
           "Microsoft.Extensions.DependencyModel": "8.0.0",
           "Mono.TextTemplating": "2.2.1"
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
-            "assemblyVersion": "8.0.2.0",
-            "fileVersion": "8.0.224.6803"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/8.0.2": {
+      "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.2",
+          "Microsoft.EntityFrameworkCore": "8.0.4",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll": {
-            "assemblyVersion": "8.0.2.0",
-            "fileVersion": "8.0.224.6803"
+            "assemblyVersion": "8.0.4.0",
+            "fileVersion": "8.0.424.16902"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Tools/8.0.2": {
+      "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Design": "8.0.2"
+          "Microsoft.EntityFrameworkCore.Design": "8.0.4"
         }
       },
       "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
@@ -431,6 +434,49 @@
           }
         }
       },
+      "NetTopologySuite/2.5.0": {
+        "dependencies": {
+          "System.Memory": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "NetTopologySuite.Features/2.0.0": {
+        "dependencies": {
+          "NetTopologySuite": "2.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.Features.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "NetTopologySuite.IO.GeoJSON/4.0.0": {
+        "dependencies": {
+          "NetTopologySuite": "2.5.0",
+          "NetTopologySuite.Features": "2.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.IO.GeoJSON.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        }
+      },
       "Npgsql/8.0.2": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
@@ -444,9 +490,9 @@
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL/8.0.2": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "8.0.2",
-          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.2",
-          "Microsoft.EntityFrameworkCore.Relational": "8.0.2",
+          "Microsoft.EntityFrameworkCore": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Abstractions": "8.0.4",
+          "Microsoft.EntityFrameworkCore.Relational": "8.0.4",
           "Npgsql": "8.0.2"
         },
         "runtime": {
@@ -537,6 +583,7 @@
           }
         }
       },
+      "System.Memory/4.5.4": {},
       "System.Reflection.Metadata/6.0.1": {
         "dependencies": {
           "System.Collections.Immutable": "6.0.0"
@@ -612,47 +659,47 @@
       "path": "microsoft.codeanalysis.workspaces.common/4.5.0",
       "hashPath": "microsoft.codeanalysis.workspaces.common.4.5.0.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore/8.0.2": {
+    "Microsoft.EntityFrameworkCore/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-6QlvBx4rdawW3AkkCsGVV+8qRLk34aknV5JD40s1hbVR18vKmT2KDl2DW83nHcPX7f4oebQ3BD1UMNCI/gkE0g==",
-      "path": "microsoft.entityframeworkcore/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.8.0.2.nupkg.sha512"
+      "sha512": "sha512-/kyu9pXuxQvhg8RO/oN5Q5Og7cDIVvZtrt1z48rX7Yido+zEGkUkp3/Bjd9u45N2uuPPF8mn2pKDlAewCvv3/Q==",
+      "path": "microsoft.entityframeworkcore/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/8.0.2": {
+    "Microsoft.EntityFrameworkCore.Abstractions/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-DjDKp++BTKFZmX+xLTow7grQTY+pImKfhGW68Zf8myiL3zyJ3b8RZbnLsWGNCqKQIF6hJIz/zA/zmERobFwV0A==",
-      "path": "microsoft.entityframeworkcore.abstractions/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.abstractions.8.0.2.nupkg.sha512"
+      "sha512": "sha512-S50pjtPNOvRktacaO6UAhvGCPMT56wxqEq8fQfcjaSUySPGba6mKWo6ackw6DdeAR1cA6U+U0uj27warA2KtJA==",
+      "path": "microsoft.entityframeworkcore.abstractions/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/8.0.2": {
+    "Microsoft.EntityFrameworkCore.Analyzers/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-LI7awhc0fiAKvcUemsqxXUWqzAH9ywTSyM1rpC1un4p5SE1bhr5nRLvyRVbKRzKakmnNNY3to8NPDnoySEkxVw==",
-      "path": "microsoft.entityframeworkcore.analyzers/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.2.nupkg.sha512"
+      "sha512": "sha512-P8hfMZECdbgle4Us8HGRUKAjqVwgbtr5JqtCxqEoiVORrNQAmcpu3g1NKwTAoUsO9Z0QRgExtYoAmdggR/DkMQ==",
+      "path": "microsoft.entityframeworkcore.analyzers/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Design/8.0.2": {
+    "Microsoft.EntityFrameworkCore.Design/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-lpSEopadyq4VjgErVbKXznlzmrdR+1zG4jjJlumgnDTz6Ov60qZkBn8uTfPYk0PUZ3wn+GNFOi3ouSTK4JKEIA==",
-      "path": "microsoft.entityframeworkcore.design/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.design.8.0.2.nupkg.sha512"
+      "sha512": "sha512-QD5/h3+h4N7GlUaA4bzaYFW9CoeB7ne2KMiDIENIT0GPx+E6up/v9fDA36FAS3NIq9zeKUAQgN8aj6IwE7tMGw==",
+      "path": "microsoft.entityframeworkcore.design/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.design.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Relational/8.0.2": {
+    "Microsoft.EntityFrameworkCore.Relational/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-NoGfcq2OPw0z8XAPf74YFwGlTKjedWdsIEJqq4SvKcPjcu+B+/XDDNrDRxTvILfz4Ug8POSF49s1jz1JvUqTAg==",
-      "path": "microsoft.entityframeworkcore.relational/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.relational.8.0.2.nupkg.sha512"
+      "sha512": "sha512-aWLT6e9a8oMzXgF0YQpYYa3mDeU+yb2UQSQ+RrIgyGgSpzPfSKgpA7v2kOVDuZr2AQ6NNAlWPaBG7wZuKQI96w==",
+      "path": "microsoft.entityframeworkcore.relational/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.relational.8.0.4.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Tools/8.0.2": {
+    "Microsoft.EntityFrameworkCore.Tools/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-PWy3X3Z1fnWlbU6pQMSnBvMwqERoKsriJ688TMl1xT2NyqcSk6/dX22eI5eV+qYXYmYna72Dq2u0P8tNZ6AYtg==",
-      "path": "microsoft.entityframeworkcore.tools/8.0.2",
-      "hashPath": "microsoft.entityframeworkcore.tools.8.0.2.nupkg.sha512"
+      "sha512": "sha512-txPWQf+SGx8Aa6Z8FbdQ8zMHckArroaE0AlV6iqnqJp9w46RiOBtkJlkPgohteQS1uhxIwjtHfwFiQATw059fg==",
+      "path": "microsoft.entityframeworkcore.tools/8.0.4",
+      "hashPath": "microsoft.entityframeworkcore.tools.8.0.4.nupkg.sha512"
     },
     "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
       "type": "package",
@@ -731,6 +778,34 @@
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
     },
+    "NetTopologySuite/2.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5/+2O2ADomEdUn09mlSigACdqvAf0m/pVPGtIPEPQWnyrVykYY0NlfXLIdkMgi41kvH9kNrPqYaFBTZtHYH7Xw==",
+      "path": "nettopologysuite/2.5.0",
+      "hashPath": "nettopologysuite.2.5.0.nupkg.sha512"
+    },
+    "NetTopologySuite.Features/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RDbEpujDL0bsAyTMHlbKj36KIPhUrtSGUaO/jUjMnsLcixrJFwoDJ8p717FdgMHpQDrcEJAKF+QsAlYsSULkew==",
+      "path": "nettopologysuite.features/2.0.0",
+      "hashPath": "nettopologysuite.features.2.0.0.nupkg.sha512"
+    },
+    "NetTopologySuite.IO.GeoJSON/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AWpcRwPAIrUZfghQat7bXK9dAckhuAxKF/Yvp+DoctLpct7pilj0Y+VCiof/8NlaclGlrISSfgnu3Tbvq6T2ug==",
+      "path": "nettopologysuite.io.geojson/4.0.0",
+      "hashPath": "nettopologysuite.io.geojson.4.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
     "Npgsql/8.0.2": {
       "type": "package",
       "serviceable": true,
@@ -807,6 +882,13 @@
       "sha512": "sha512-ryTgF+iFkpGZY1vRQhfCzX0xTdlV3pyaTTqRu2ETbEv+HlV7O6y7hyQURnghNIXvctl5DuZ//Dpks6HdL/Txgw==",
       "path": "system.io.pipelines/6.0.3",
       "hashPath": "system.io.pipelines.6.0.3.nupkg.sha512"
+    },
+    "System.Memory/4.5.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
+      "path": "system.memory/4.5.4",
+      "hashPath": "system.memory.4.5.4.nupkg.sha512"
     },
     "System.Reflection.Metadata/6.0.1": {
       "type": "package",

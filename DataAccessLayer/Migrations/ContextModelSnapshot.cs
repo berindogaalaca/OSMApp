@@ -17,7 +17,7 @@ namespace DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -52,6 +52,35 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("PointId");
 
                     b.ToTable("Points");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Polygon", b =>
+                {
+                    b.Property<int>("PolygonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PolygonId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("geometry(Polygon, 4326)");
+                    b.Property<string>("PolygonName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PolygonNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("PolygonId");
+
+                    b.ToTable("Polygons", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,8 @@
 ﻿using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+//using NetTopologySuite.Geometries;
+//using NetTopologySuite.IO;
 
 using System;
 using System.Collections.Generic;
@@ -9,13 +12,34 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
 {
-    public class Context:DbContext
+    public class Context : DbContext
     {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host= localhost; Database=OSMApp ; Username=postgres; Password=berin123");
+            optionsBuilder.UseNpgsql("Host= localhost;Database=gis;Username=postgres;Password=berin123");
         }
         public DbSet<Point> Points { get; set; }
+        public DbSet<Polygon> Polygons { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Polygon>().ToTable("Polygons");
+
+            var geometryConverter = new ValueConverter<NetTopologySuite.Geometries.Geometry, string>(
+                g => new NetTopologySuite.IO.WKTWriter().Write(g),
+                s => new NetTopologySuite.IO.WKTReader().Read(s)
+            );
+
+            modelBuilder.Entity<Polygon>()
+                .Property(p => p.Location)
+                .HasColumnType("geometry(Polygon, 4326)")
+                .HasConversion(geometryConverter);
+
+            
+        }
+
     }
+    
 }
