@@ -12,6 +12,6 @@ namespace DataAccessLayer.Abstract
         Polygon GetByName(string PolygonName);
         Polygon GetByNumber(int? PolygonNumber);
         Polygon GetById(int? PolygonId);
-        Polygon GetByCoordinate(NetTopologySuite.Geometries.Geometry? Location);
+        Polygon GetByCoordinate(string Location);
     }
 }

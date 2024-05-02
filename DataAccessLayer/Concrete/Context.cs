@@ -21,25 +21,14 @@ namespace DataAccessLayer.Concrete
         }
         public DbSet<Point> Points { get; set; }
         public DbSet<Polygon> Polygons { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); 
 
-            modelBuilder.Entity<Polygon>().ToTable("Polygons");
+            modelBuilder.Entity<Polygon>().ToTable("Polygons").Property(p => p.Location).HasColumnType("geometry(Polygon, 4326)"); 
 
-            var geometryConverter = new ValueConverter<NetTopologySuite.Geometries.Geometry, string>(
-                g => new NetTopologySuite.IO.WKTWriter().Write(g),
-                s => new NetTopologySuite.IO.WKTReader().Read(s)
-            );
-
-            modelBuilder.Entity<Polygon>()
-                .Property(p => p.Location)
-                .HasColumnType("geometry(Polygon, 4326)")
-                .HasConversion(geometryConverter);
-
-            
         }
-
     }
     
 }

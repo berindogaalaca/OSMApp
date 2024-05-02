@@ -49,7 +49,7 @@ namespace BusinessLayer.Concrete
 
         public Polygon TGetByName(string PolygonName)
         {
-            Console.WriteLine(PolygonName);
+            Console.WriteLine(PolygonName.GetType());
             return _PolygonDal.GetByName(PolygonName);
         }
 
@@ -60,11 +60,12 @@ namespace BusinessLayer.Concrete
 
         public Polygon TGetByNumber(int? PolygonNumber)
         {
+            Console.WriteLine("tget"+PolygonNumber);
+            Console.WriteLine("getby" + _PolygonDal.GetByNumber(PolygonNumber));
             return _PolygonDal.GetByNumber(PolygonNumber);
         }
-        public Polygon TGetByCoordinate(NetTopologySuite.Geometries.Geometry? Location)
+        public Polygon TGetByCoordinate(string Location)
         {
-            Console.WriteLine("tget"+Location.GetType());
             return _PolygonDal.GetByCoordinate(Location);
         }
 

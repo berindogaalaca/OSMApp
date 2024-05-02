@@ -68,6 +68,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("geometry(Polygon, 4326)");
+
                     b.Property<string>("PolygonName")
                         .IsRequired()
                         .HasColumnType("text");

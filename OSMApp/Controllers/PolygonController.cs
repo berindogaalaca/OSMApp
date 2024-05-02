@@ -14,59 +14,29 @@ namespace OSMApp.Controllers
         Response responseMessage = new Response();
         PolygonManager _polygonManager = new PolygonManager(new EfPolygonDal());
 
-        public NetTopologySuite.Geometries.Geometry ConvertJsonToGeometry(JsonElement locationElement)
-        {
-            string json = locationElement.GetRawText();
-            var reader = new NetTopologySuite.IO.GeoJsonReader();
-            return reader.Read<NetTopologySuite.Geometries.Geometry>(json);
-
-        }
         [HttpPost]
-        public Response AddPolygon([FromBody] JsonElement requestBody)
+        public Response AddPolygon([FromBody] Polygon polygon)
         {
             try
             {
-                var polygonName = requestBody.GetProperty("PolygonName").GetString();
-                var polygonNumber = requestBody.GetProperty("PolygonNumber").GetInt32();
-                var locationElement = requestBody.GetProperty("Location");
-                var createdAt = DateTime.UtcNow;
-                var updatedAt = DateTime.UtcNow;
+              
+               
+               // bool nameExists = !string.IsNullOrEmpty(polygon.PolygonName) && _polygonManager.TGetByName(polygon.PolygonName) != null;
+                //Console.WriteLine(_polygonManager.TGetByName(polygon.PolygonName));
+               // bool numberExists = polygon.PolygonNumber != null && _polygonManager.TGetByNumber(polygon.PolygonNumber) != null;
+                //Console.WriteLine("Number exists: " + _polygonManager.TGetByNumber(polygon.PolygonNumber) != null);
+                bool coordinatesExist = polygon.Location == null && _polygonManager.TGetByCoordinate(polygon.Location) != null;
+                Console.WriteLine("coor" + coordinatesExist) ;
 
-            
-
-                NetTopologySuite.Geometries.Geometry geometry = ConvertJsonToGeometry(locationElement);
-
-                var polygon = new Polygon
+                if (!coordinatesExist )
                 {
-                    PolygonName = polygonName,
-                    PolygonNumber = polygonNumber,
-                    Location = geometry,
-                    CreatedAt = createdAt,
-                    UpdatedAt = updatedAt
-                };
-                Console.WriteLine("coor" + geometry.GetType());
-
-                bool coordinatesExist = geometry == null && _polygonManager.TGetByCoordinate(geometry) != null;
-
-                bool nameExists = !string.IsNullOrEmpty(polygon.PolygonName) && _polygonManager.TGetByName(polygon.PolygonName) != null;
-                Console.WriteLine(nameExists);
-
-                Console.WriteLine("Number exists: " + _polygonManager.TGetByNumber(polygonNumber) != null);
-
-                bool numberExists = polygonNumber != null && _polygonManager.TGetByNumber(polygonNumber) != null;
-
-
-
-
-                 if (!coordinatesExist || nameExists|| numberExists)
-                 {
-                     responseMessage.Success = false;
-                     responseMessage.Message = "The provided polygon coordinates, name, or number already exist.";
-                     responseMessage.Data = null;
-                 }
-                 else
-                 {
-                _polygonManager.TAdd(polygon);
+                    responseMessage.Success = false;
+                    responseMessage.Message = "The provided polygon coordinates, name, or number already exist.";
+                    responseMessage.Data = null;
+                }
+                else
+                {
+                    _polygonManager.TAdd(polygon);
                     responseMessage.Success = true;
                     responseMessage.Message = "Polygon added successfully.";
                     responseMessage.Data = polygon;
@@ -76,7 +46,7 @@ namespace OSMApp.Controllers
             {
                 responseMessage.Success = false;
                 responseMessage.Message = e.Message;
-                responseMessage.Data = requestBody;
+                responseMessage.Data = polygon;
             }
             return responseMessage;
         }

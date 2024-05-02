@@ -29,21 +29,25 @@ namespace DataAccessLayer.EntityFramework
 
         public Polygon GetByName(string PolygonName)
         {
-            Console.WriteLine(PolygonName);
-
-            var polygon = _context.Polygons.AsEnumerable().FirstOrDefault(p => p.PolygonName == PolygonName);
+            Console.WriteLine("get" + PolygonName.GetType());
+            
+            var polygon = _context.Polygons.SingleOrDefault(p => p.PolygonName == PolygonName);
+            Console.WriteLine("po" + polygon);
             return polygon;
         }
 
 
         public Polygon GetByNumber(int? PolygonNumber)
         {
-            return _context.Polygons.SingleOrDefault(p => p.PolygonNumber == PolygonNumber);
+            var polygon = _context.Polygons.FirstOrDefault(p => p.PolygonNumber == PolygonNumber);
+
+            Console.WriteLine(polygon);
+            return polygon;
         }
 
-        public Polygon GetByCoordinate(NetTopologySuite.Geometries.Geometry Location)
+        public Polygon GetByCoordinate(string Location)
         {
-            return _context.Polygons.SingleOrDefault(p => p.Location.Intersects(Location));
+            return _context.Polygons.SingleOrDefault(p => p.Location==Location);
         }
     }
 }
