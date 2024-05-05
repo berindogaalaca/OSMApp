@@ -12,6 +12,6 @@ namespace BusinessLayer.Abstract
         Polygon TGetByName(string PolygonName);
         Polygon TGetByNumber(int? PolygonNumber);
         Polygon TGetByID(int? PolygonId);
-        Polygon TGetByCoordinate(string Location);
+        Polygon TGetByCoordinate(NetTopologySuite.Geometries.Geometry? Location);
     }
 }

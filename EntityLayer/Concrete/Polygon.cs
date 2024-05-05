@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EntityLayer.Concrete
@@ -15,8 +16,9 @@ namespace EntityLayer.Concrete
         public int PolygonId { get; set; }
         public string PolygonName { get; set; }
         public int PolygonNumber { get; set; }
+        [JsonIgnore]
         [Column(TypeName = "geometry(Polygon, 4326)")]
-        public string Location { get; set; }
+        public Geometry? Location { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

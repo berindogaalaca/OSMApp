@@ -13,3 +13,5 @@ C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\refint\EntityLayer
 C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\EntityLayer.pdb
 C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\EntityLayer.genruntimeconfig.cache
 C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\ref\EntityLayer.dll
+C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\Doa\source\repos\OSMApp\EntityLayer\obj\Debug\net8.0\EFCoreSqliteNetTopologySuite.cs

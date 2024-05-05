@@ -16,3 +16,6 @@ C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\refint\DataAcc
 C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.pdb
 C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\DataAccessLayer.genruntimeconfig.cache
 C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\ref\DataAccessLayer.dll
+C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\EFCoreSqliteNetTopologySuite.cs
+C:\Users\Doa\source\repos\OSMApp\DataAccessLayer\obj\Debug\net8.0\EFCoreNpgsqlNetTopologySuite.cs

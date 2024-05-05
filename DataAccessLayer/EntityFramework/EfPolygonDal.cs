@@ -5,6 +5,7 @@ using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.IO;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,25 +30,33 @@ namespace DataAccessLayer.EntityFramework
 
         public Polygon GetByName(string PolygonName)
         {
-            Console.WriteLine("get" + PolygonName.GetType());
-            
-            var polygon = _context.Polygons.SingleOrDefault(p => p.PolygonName == PolygonName);
-            Console.WriteLine("po" + polygon);
-            return polygon;
+            var query = $"SELECT * FROM public.\"Polygons\" WHERE \"PolygonName\" = @PolygonName";
+
+            return _context.Polygons.FromSqlRaw(query, new NpgsqlParameter("@PolygonName", NpgsqlTypes.NpgsqlDbType.Text) { Value = PolygonName }).FirstOrDefault();
         }
 
 
         public Polygon GetByNumber(int? PolygonNumber)
         {
-            var polygon = _context.Polygons.FirstOrDefault(p => p.PolygonNumber == PolygonNumber);
+            var query = $"SELECT * FROM public.\"Polygons\" WHERE \"PolygonNumber\" = @PolygonNumber";
 
-            Console.WriteLine(polygon);
-            return polygon;
+            return _context.Polygons.FromSqlRaw(query, new NpgsqlParameter("@PolygonNumber", NpgsqlTypes.NpgsqlDbType.Integer) { Value = PolygonNumber }).FirstOrDefault();
         }
 
-        public Polygon GetByCoordinate(string Location)
+
+        public Polygon GetByCoordinate(NetTopologySuite.Geometries.Geometry Location)
         {
-            return _context.Polygons.SingleOrDefault(p => p.Location==Location);
+            var wktWriter = new WKTWriter();
+            var locationWKT = wktWriter.Write(Location);
+            var reader = new WKTReader();
+            var geometry = reader.Read(locationWKT);
+
+            var polygons = _context.Polygons
+            .FromSqlInterpolated($"SELECT * FROM public.\"Polygons\" WHERE ST_Intersects(\"Location\", ST_Transform(ST_GeomFromText({geometry}, 4326), 4326))")
+            .FirstOrDefault();
+
+            return polygons;
         }
+
     }
 }

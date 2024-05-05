@@ -18,3 +18,5 @@ C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\refint\BusinessL
 C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\BusinessLayer.pdb
 C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\BusinessLayer.genruntimeconfig.cache
 C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\ref\BusinessLayer.dll
+C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\EFCoreSqlServerNetTopologySuite.cs
+C:\Users\Doa\source\repos\OSMApp\BusinessLayer\obj\Debug\net8.0\EFCoreSqliteNetTopologySuite.cs
