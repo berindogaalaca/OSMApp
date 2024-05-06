@@ -13,5 +13,10 @@ namespace DataAccessLayer.Abstract
         Polygon GetByNumber(int? PolygonNumber);
         Polygon GetById(int? PolygonId);
         Polygon GetByCoordinate(NetTopologySuite.Geometries.Geometry? Location);
+        List<Polygon> GetPolygonList();
+        Polygon GetByNumberName(string PolygonName, int? PolygonNumber);
+        Polygon GetByCoordinateName(string PolygonName, NetTopologySuite.Geometries.Geometry? Location);
+        Polygon GetByCoordinateNumber(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location);
+        Polygon GetByCoordinateNumberName(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName);
     }
 }

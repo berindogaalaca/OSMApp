@@ -53,14 +53,11 @@ namespace BusinessLayer.Concrete
         }
         public Polygon TGetByName(string PolygonName)
         {
-            Console.WriteLine(PolygonName.GetType());
             return _PolygonDal.GetByName(PolygonName);
         }
 
         public Polygon TGetByNumber(int? PolygonNumber)
         {
-            Console.WriteLine("tget"+PolygonNumber);
-            Console.WriteLine("getby" + _PolygonDal.GetByNumber(PolygonNumber));
             return _PolygonDal.GetByNumber(PolygonNumber);
         }
         public Polygon TGetByCoordinate(NetTopologySuite.Geometries.Geometry? Location)
@@ -68,5 +65,30 @@ namespace BusinessLayer.Concrete
             return _PolygonDal.GetByCoordinate(Location);
         }
 
+        public List<Polygon> TGetPolygonList()
+        {
+            return _PolygonDal.GetPolygonList();
+        }
+
+        public Polygon TGetByNumberName(string PolygonName, int? PolygonNumber)
+        {
+            return _PolygonDal.GetByNumberName(PolygonName, PolygonNumber);
+        }
+
+        public Polygon TGetByCoordinateName(string PolygonName, NetTopologySuite.Geometries.Geometry? Location)
+        {
+            return _PolygonDal.GetByCoordinateName(PolygonName, Location);
+
+        }
+
+        public Polygon TGetByCoordinateNumber(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location)
+        {
+            return _PolygonDal.GetByCoordinateNumber(PolygonNumber, Location);
+        }
+
+        public Polygon TGetByCoordinateNumberName(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName)
+        {
+            return _PolygonDal.GetByCoordinateNumberName(PolygonNumber, Location, PolygonName);
+        }
     }
 }

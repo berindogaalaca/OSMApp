@@ -4,6 +4,7 @@ using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NetTopologySuite.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OSMApp.Models;
 using System.Text.Json;
@@ -99,18 +100,188 @@ namespace OSMApp.Controllers
         }
 
         [HttpGet]
-        public Response QueryPoints([FromQuery] string? PolygonName, [FromQuery] int? PolygonNumber)
+        public Response QueryPoints([FromQuery] string? PolygonName, [FromQuery] int? PolygonNumber, [FromQuery] string? Location)
         {
+           
+            
             try
             {
-
-                if (string.IsNullOrEmpty(PolygonName) && !PolygonNumber.HasValue  )
+                    
+                if (string.IsNullOrEmpty(PolygonName) && !PolygonNumber.HasValue && string.IsNullOrEmpty(Location))
                 {
-                    var points = _polygonManager.GetList();
-                    responseMessage.Data = points;
-                    responseMessage.Success = true;
-                    responseMessage.Message = "Get Points list successfully";
+                    var polygons = _polygonManager.TGetPolygonList();
+                    var settings = new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    };
 
+                    string json = JsonConvert.SerializeObject(polygons, settings);
+
+                    responseMessage.Data = json;
+                    responseMessage.Success = true;
+                    responseMessage.Message = "Get Polygon list successfully";
+
+                }
+
+                else if (!string.IsNullOrEmpty(PolygonName) && !PolygonNumber.HasValue && string.IsNullOrEmpty(Location))
+                {
+                    var polygonGetByName = _polygonManager.TGetByName(PolygonName);
+
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByName.Location);
+                    int number = polygonGetByName.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+                    if (polygonGetByName != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Name found";
+
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Name didn't found";
+
+                    }
+                }
+                else if (string.IsNullOrEmpty(PolygonName) && PolygonNumber.HasValue && string.IsNullOrEmpty(Location))
+                {
+                    var polygonGetByNumber = _polygonManager.TGetByNumber(PolygonNumber);
+
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByNumber.Location);
+                    int number = polygonGetByNumber.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+                    if (polygonGetByNumber != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Number found";
+
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Number didn't found";
+
+                    }
+                }
+                else if (string.IsNullOrEmpty(PolygonName) && !PolygonNumber.HasValue && !string.IsNullOrEmpty(Location))
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read(Location);
+                    var polygonGetByCoordinate = _polygonManager.TGetByCoordinate(geometry);
+
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByCoordinate.Location);
+                    int number = polygonGetByCoordinate.PolygonNumber;
+                    var json = ConvertToJSON(polygonGetByCoordinate.PolygonName, number, locationWKT);
+                    if (polygonGetByCoordinate != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Coordinate found";
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Coordinate didn't found";
+                    }
+                }
+                else if (string.IsNullOrEmpty(PolygonName) && PolygonNumber.HasValue && !string.IsNullOrEmpty(Location))
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read(Location);
+                    var polygonGetByCoordinateNumber = _polygonManager.TGetByCoordinateNumber(PolygonNumber, geometry);
+
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByCoordinateNumber.Location);
+                    int number = polygonGetByCoordinateNumber.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+                    if (polygonGetByCoordinateNumber != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Coordinate and Number found";
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Coordinate and Number didn't found";
+                    }
+                }
+                else if (!string.IsNullOrEmpty(PolygonName) && !PolygonNumber.HasValue && !string.IsNullOrEmpty(Location))
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read(Location);
+                    var polygonGetByCoordinateName = _polygonManager.TGetByCoordinateName(PolygonName, geometry);
+
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByCoordinateName.Location);
+                    int number = polygonGetByCoordinateName.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+                    if (polygonGetByCoordinateName != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Coordinate and Name found";
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Coordinate and Name didn't found";
+                    }
+                }
+                else if (!string.IsNullOrEmpty(PolygonName) && PolygonNumber.HasValue && string.IsNullOrEmpty(Location))
+                {
+                    var polygonGetByNumberName = _polygonManager.TGetByNumberName(PolygonName, PolygonNumber);
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(polygonGetByNumberName.Location);
+                    int number = polygonGetByNumberName.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+
+                   
+                    if (polygonGetByNumberName != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Name and Number found";
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Name and Number didn't found";
+                    }
+                }
+                else
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read(Location);
+                    var polygonGetByCoordinateNumberName = _polygonManager.TGetByCoordinateNumberName(PolygonNumber, geometry, PolygonName);
+                    var wktWriter = new WKTWriter();
+                    var locationWKT = wktWriter.Write(geometry);
+                    int number = polygonGetByCoordinateNumberName.PolygonNumber;
+                    var json = ConvertToJSON(PolygonName, number, locationWKT);
+
+                    if (polygonGetByCoordinateNumberName != null)
+                    {
+                        responseMessage.Data = json;
+                        responseMessage.Success = true;
+                        responseMessage.Message = "Name, Number and Coordinate found";
+                    }
+                    else
+                    {
+                        responseMessage.Data = null;
+                        responseMessage.Success = false;
+                        responseMessage.Message = "Name, Number and Coordinate didn't found";
+                    }
                 }
             }
             catch (Exception e)
@@ -120,6 +291,29 @@ namespace OSMApp.Controllers
                 responseMessage.Message = e.Message;
             }
             return responseMessage;
+        }
+        public class PolygonInfo
+        {
+            public string Name { get; set; }
+            public int Number { get; set; }
+            public string Location { get; set; }
+
+            public override string ToString()
+            {
+                return JsonConvert.SerializeObject(this);
+            }
+        }
+
+        public string ConvertToJSON(string name, int number, string locationWKT)
+        {
+            var polygonInfo = new PolygonInfo
+            {
+                Name = name,
+                Number = number,
+                Location = locationWKT
+            };
+
+            return polygonInfo.ToString();
         }
     }
 }
