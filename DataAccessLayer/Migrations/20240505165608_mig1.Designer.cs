@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240505120919_mig1")]
+    [Migration("20240505165608_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -83,7 +83,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("PolygonId");
 
-                    b.ToTable("Polygons", (string)null);
+                    b.ToTable("Polygons");
                 });
 #pragma warning restore 612, 618
         }

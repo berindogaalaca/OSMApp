@@ -28,18 +28,17 @@ namespace DataAccessLayer.Concrete
 
             modelBuilder.Entity<Polygon>().ToTable("Polygons");
 
-            var geometryConverter = new ValueConverter<NetTopologySuite.Geometries.Geometry?, string>(
-            g => g != null ? new NetTopologySuite.IO.WKTWriter().Write(g) : null,
-            s => s != null ? new NetTopologySuite.IO.WKTReader().Read(s) : null
+            var geometryConverter = new ValueConverter<NetTopologySuite.Geometries.Geometry, string>(
+                g => g != null ? new NetTopologySuite.IO.WKTWriter().Write(g) : null,
+                s => s != null ? new NetTopologySuite.IO.WKTReader().Read(s) : null
             );
-
 
             modelBuilder.Entity<Polygon>()
                 .Property(p => p.Location)
-                .HasColumnType("System.Data.Spatial.DbGeometry\r\n")
+                .HasColumnType("geometry")
                 .HasConversion(geometryConverter);
 
-        
+
         }
     }
     

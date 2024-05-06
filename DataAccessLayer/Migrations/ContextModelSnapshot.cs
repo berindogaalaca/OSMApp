@@ -80,7 +80,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("PolygonId");
 
-                    b.ToTable("Polygons", (string)null);
+                    b.ToTable("Polygons");
                 });
 #pragma warning restore 612, 618
         }

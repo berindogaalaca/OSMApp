@@ -16,7 +16,7 @@ namespace EntityLayer.Concrete
         public int PolygonId { get; set; }
         public string PolygonName { get; set; }
         public int PolygonNumber { get; set; }
-        [JsonIgnore]
+
         [Column(TypeName = "geometry(Polygon, 4326)")]
         public Geometry? Location { get; set; }
         public DateTime CreatedAt { get; set; }

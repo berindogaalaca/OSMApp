@@ -3,6 +3,7 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using NetTopologySuite.IO;
 using Newtonsoft.Json.Linq;
 using OSMApp.Models;
 using System.Text.Json;
@@ -26,7 +27,6 @@ namespace OSMApp.Controllers
                 responseMessage.Data = null;
                 return responseMessage;
             }
-
             if (requestBody.GetProperty("PolygonName").ValueKind != JsonValueKind.String ||
                 requestBody.GetProperty("PolygonNumber").ValueKind != JsonValueKind.Number ||
                 !requestBody.TryGetProperty("Location", out var location) ||
@@ -37,7 +37,6 @@ namespace OSMApp.Controllers
                 responseMessage.Data = null;
                 return responseMessage;
             }
-
             string name = requestBody.GetProperty("PolygonName").GetString();
             int polygonNumber = requestBody.GetProperty("PolygonNumber").GetInt32();
             if (polygonNumber==null)
@@ -47,14 +46,12 @@ namespace OSMApp.Controllers
                 responseMessage.Data = null;
                 
             }
-
-
             var locationJson = location.GetRawText();
-
             try
             {
-                var reader = new NetTopologySuite.IO.GeoJsonReader();
-                NetTopologySuite.Geometries.Geometry geom = reader.Read<NetTopologySuite.Geometries.Geometry>(locationJson);
+                var reader = new GeoJsonReader();
+                NetTopologySuite.Geometries.Polygon geom = null;
+                geom = reader.Read<NetTopologySuite.Geometries.Polygon>(locationJson);
 
                 if (geom == null)
                 {
@@ -73,16 +70,9 @@ namespace OSMApp.Controllers
                     UpdatedAt = DateTime.UtcNow
                 };
 
-                Console.WriteLine(polygon.Location.GetType());
-
-
-                bool coordinatesExist = _polygonManager.TGetByCoordinate(polygon.Location) != null;
-                Console.WriteLine("coor" + coordinatesExist);
-                bool nameExists = _polygonManager.TGetByName(polygon.PolygonName) != null;
-                Console.WriteLine("name exists ->" + nameExists);
-
+                bool coordinatesExist = _polygonManager.TGetByCoordinate(polygon.Location)!= null;
                 bool numberExists = _polygonManager.TGetByNumber(polygon.PolygonNumber) != null;
-                Console.WriteLine("Number exists: " + numberExists);
+                bool nameExists = _polygonManager.TGetByName(polygon.PolygonName) != null;
 
                 if (coordinatesExist || nameExists || numberExists)
                 {
@@ -95,7 +85,7 @@ namespace OSMApp.Controllers
                     _polygonManager.TAdd(polygon);
                     responseMessage.Success = true;
                     responseMessage.Message = "Polygon added successfully.";
-                    responseMessage.Data = polygon;
+                    responseMessage.Data = requestBody;
                 }
             }
             catch (Exception e)
