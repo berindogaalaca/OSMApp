@@ -28,7 +28,37 @@ namespace DataAccessLayer.EntityFramework
 
         public Polygon GetById(int? PolygonId)
         {
-            return _context.Polygons.SingleOrDefault(p => p.PolygonId == PolygonId);
+            try
+            {
+                var connection = (NpgsqlConnection)_context.Database.GetDbConnection();
+                var command = new NpgsqlCommand($"SELECT *, ST_AsText(\"Location\") AS location_text  FROM public.\"Polygons\" WHERE \"PolygonId\" = @PolygonId LIMIT 1", connection);
+                command.Parameters.AddWithValue("@PolygonId", PolygonId);
+                connection.Open();
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read((string)reader["location_text"]);
+                    var polygon = new Polygon
+                    {
+                        PolygonId = (int)reader["PolygonId"],
+                        PolygonName = (string)reader["PolygonName"],
+                        PolygonNumber = (int)reader["PolygonNumber"],
+                        Location = geometry,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    connection.Close();
+                    return polygon;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing SQL query: " + ex.Message);
+                return null;
+            }
         }
 
         public Polygon GetByName(string PolygonName)
@@ -352,6 +382,55 @@ namespace DataAccessLayer.EntityFramework
                     return polygon;
                 }
 
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error executing SQL query: " + ex.Message);
+                return null;
+            }
+        }
+
+        public Polygon UpdatePolygon(int? PolygonId, int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName)
+        {
+            try
+            {
+                var connection = (NpgsqlConnection)_context.Database.GetDbConnection();
+                var wktWriter = new WKTWriter();
+                var locationWKT = wktWriter.Write(Location);
+
+                var command = new NpgsqlCommand(
+                    $"UPDATE public.\"Polygons\" " +
+                    $"SET \"PolygonName\" = @NewPolygonName, " +
+                    $"\"PolygonNumber\" = @NewPolygonNumber, " +
+                    $"\"Location\" = ST_GeomFromText('{locationWKT}', 4326), " +
+                    $"\"UpdatedAt\" = NOW() " +
+                    $"WHERE \"PolygonId\" = @PolygonId", connection);
+
+                command.Parameters.AddWithValue("@NewPolygonName", PolygonName);
+                command.Parameters.AddWithValue("@NewPolygonNumber", PolygonNumber);
+                command.Parameters.AddWithValue("@PolygonId", PolygonId);
+
+                connection.Open();
+
+                int rowsAffected = command.ExecuteNonQuery();
+
+                connection.Close();
+
+                if (rowsAffected > 0)
+                {
+                    WKTReader wktReader = new WKTReader();
+                    NetTopologySuite.Geometries.Geometry geometry = wktReader.Read(locationWKT);
+                    var updatedPolygon = new Polygon
+                    {
+                        PolygonId = (int)PolygonId,
+                        PolygonName = PolygonName,
+                        PolygonNumber = (int)PolygonNumber,
+                        Location = geometry,
+                        UpdatedAt = DateTime.Now
+                    };
+                    return updatedPolygon;
+                }
                 return null;
             }
             catch (Exception ex)

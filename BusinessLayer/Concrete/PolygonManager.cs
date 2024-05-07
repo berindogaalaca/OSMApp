@@ -90,5 +90,10 @@ namespace BusinessLayer.Concrete
         {
             return _PolygonDal.GetByCoordinateNumberName(PolygonNumber, Location, PolygonName);
         }
+
+        public Polygon UpdatePolygon(int? PolygonId,int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName)
+        {
+            return _PolygonDal.UpdatePolygon(PolygonId,PolygonNumber, Location, PolygonName);
+        }
     }
 }

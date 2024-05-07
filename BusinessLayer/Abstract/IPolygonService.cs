@@ -18,6 +18,7 @@ namespace BusinessLayer.Abstract
         Polygon TGetByCoordinateName(string PolygonName, NetTopologySuite.Geometries.Geometry? Location);
         Polygon TGetByCoordinateNumber(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location);
         Polygon TGetByCoordinateNumberName(int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName);
+        Polygon UpdatePolygon(int? PolygonId, int? PolygonNumber, NetTopologySuite.Geometries.Geometry? Location, string PolygonName);
 
     }
 }

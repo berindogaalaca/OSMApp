@@ -315,5 +315,84 @@ namespace OSMApp.Controllers
 
             return polygonInfo.ToString();
         }
+
+        [HttpDelete("{PolygonId:int}")]
+        public Response DeleteValue(int? PolygonId)
+        {
+            try
+            {
+                var polygonValue = _polygonManager.TGetByID(PolygonId);
+                Console.WriteLine(polygonValue);
+                var wktWriter = new WKTWriter();
+                var locationWKT = wktWriter.Write(polygonValue.Location);
+                int number = polygonValue.PolygonNumber;
+                var json = ConvertToJSON(polygonValue.PolygonName, number, locationWKT);
+                if (polygonValue == null)
+                {
+                    responseMessage.Success = false;
+                    responseMessage.Message = "Polygon value undefined";
+                    responseMessage.Data = null;
+                }
+                else
+                {
+                    _polygonManager.TDelete(polygonValue);
+                    responseMessage.Success = true;
+                    responseMessage.Message = "Polygon deleted successfully.";
+                    responseMessage.Data = json;
+                }
+            }
+            catch (Exception e)
+            {
+                responseMessage.Success = false;
+                responseMessage.Message = e.Message;
+                responseMessage.Data = null;
+            }
+            return responseMessage;
+        }
+        [HttpPut("{PolygonId}")]
+        public Response UpdatePoint(int? PolygonId, [FromBody] JsonElement requestBody)
+        {
+            try
+            {
+              
+                var existingPolygon = _polygonManager.TGetByID(PolygonId);
+
+                if (existingPolygon == null)
+                {
+                    responseMessage.Success = false;
+                    responseMessage.Message = "Undefined point";
+                    responseMessage.Data = null;
+                }
+                string name = requestBody.GetProperty("PolygonName").GetString();
+                int polygonNumber = requestBody.GetProperty("PolygonNumber").GetInt32();
+                var location = requestBody.GetProperty("Location");
+
+                int polygonId = existingPolygon.PolygonId;
+                var locationJson = location.GetRawText();
+                var reader = new GeoJsonReader();
+                NetTopologySuite.Geometries.Polygon geom = null;
+                geom = reader.Read<NetTopologySuite.Geometries.Polygon>(locationJson);
+
+                var updatepolygon= _polygonManager.UpdatePolygon(polygonId,polygonNumber, geom, name);
+
+                var wktWriter = new WKTWriter();
+                var locationWKT = wktWriter.Write(updatepolygon.Location);
+                int number = updatepolygon.PolygonNumber;
+                var json = ConvertToJSON(name, number, locationWKT);
+
+
+                responseMessage.Success = false;
+                responseMessage.Message = "Updated point";
+                responseMessage.Data = json;
+            }
+            catch (Exception e)
+            {
+                responseMessage.Success = false;
+                responseMessage.Message = e.Message;
+                responseMessage.Data = null;
+            }
+            return responseMessage;
+
+        }
     }
 }
